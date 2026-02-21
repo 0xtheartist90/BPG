@@ -3,8 +3,13 @@ import { notFound } from 'next/navigation';
 
 import { newsItems } from '@/data/newsItems';
 
-const ArticlePage = ({ params }: { params: { slug: string } }) => {
-    const article = newsItems.find((item) => item.slug === params.slug);
+type ArticlePageProps = {
+    params: Promise<{ slug: string }>;
+};
+
+const ArticlePage = async ({ params }: ArticlePageProps) => {
+    const { slug } = await params;
+    const article = newsItems.find((item) => item.slug === slug);
 
     if (!article) {
         notFound();

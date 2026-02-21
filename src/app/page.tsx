@@ -2,17 +2,11 @@ import type { ReactNode } from 'react';
 
 import Image from 'next/image';
 
-import {
-    Building2,
-    CalendarDays,
-    Instagram,
-    Mail,
-    MessageSquare,
-    Newspaper,
-    Users,
-    MessageCircle
-} from 'lucide-react';
+import { Building2, Instagram, Mail, MessageSquare, Users, MessageCircle } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import NewsShowcase from '@/components/NewsShowcase';
+import AgendaShowcase from '@/components/AgendaShowcase';
+import HighlightsShowcase from '@/components/HighlightsShowcase';
 
 type CardItem = {
     title: string;
@@ -20,6 +14,17 @@ type CardItem = {
     href?: string;
     actionLabel?: string;
     icon?: LucideIcon;
+};
+
+type AgendaEvent = {
+    date: string;
+    time: string;
+    title: string;
+    location: string;
+    description: string;
+    image: string;
+    start: string;
+    end: string;
 };
 
 const pillars: CardItem[] = [
@@ -32,19 +37,44 @@ const pillars: CardItem[] = [
     {
         title: 'Buurthub De Ster',
         description:
-            'Het voormalige schoolgebouw aan de Woudrichemstraat 8 is onze thuisbasis voor ontmoetingen, workshops en ondersteuning van bewonersinitiatieven.',
+            'Een locatie in Gein waar bewoners, organisaties en gemeente elkaar ontmoeten. Hier starten plannen, spreekuren en pilots.',
         icon: Building2
     },
     {
         title: 'Samenwerking met partners',
         description:
-            'Elke twee maanden Wijkoverleg Stakeholders, kwartaalgesprekken met Gebiedsbeheer en nauwe afstemming met de gemeente en Stichting !WOON.',
+            'Tweemaandelijks wijkoverleg met 30+ partners, kwartaalgesprekken met Gebiedsbeheer en structurele afstemming met gemeente, Democratisering en Stichting !WOON voor snelle opvolging.',
         icon: Users
     },
     {
         title: 'Stem van de buurt',
         description: 'We signaleren zorgen, stimuleren inspraak en houden de overheid scherp voor wat inwoners van Gein nodig hebben.',
         icon: Mail
+    }
+];
+
+const agendaEvents: AgendaEvent[] = [
+    {
+        date: '27 september 2026',
+        time: '08:00 – 20:00',
+        title: 'Gein 40 jaar jubileumdag',
+        location: 'Veld bij Cornelis Aarnoutsstraat',
+        description:
+            'We vieren Burendag met een dagvullend programma: ochtendwandelingen, buurtpicknicks, live muziek en verhalen over 40 jaar Gein. Doe mee als vrijwilliger of kom gewoon genieten.',
+        image: '/images/Infinite%20loop/bpgloop3.png',
+        start: '2026-09-27T08:00:00+02:00',
+        end: '2026-09-27T20:00:00+02:00'
+    },
+    {
+        date: '24 augustus 2026',
+        time: '13:00 – 17:00',
+        title: 'Buurtfeest Gein – einde zomer editie',
+        location: 'Wisseloord Winkelstraat 97, Amsterdam',
+        description:
+            'Een gratis buurtfeest vol muziek, kinderactiviteiten en lokale lekkernijen. Vier mee dat Gein 40 jaar bestaat en verbind met buren die het verschil maken.',
+        image: '/images/Infinite%20loop/bpgloop4.png',
+        start: '2026-08-24T13:00:00+02:00',
+        end: '2026-08-24T17:00:00+02:00'
     }
 ];
 
@@ -61,76 +91,11 @@ const infiniteLoopImages = [
 
 const navLinks = [
     { label: 'Missie', href: '#missie' },
+    { label: 'Over Gein', href: '#over-gein' },
     { label: 'Initiatieven', href: '#initiatieven' },
     { label: 'Nieuws', href: '#nieuws' },
     { label: 'Agenda', href: '#agenda' },
     { label: 'Contact', href: '#newsletter' }
-];
-
-const highlights: CardItem[] = [
-    {
-        title: 'Buurtbudget 2024-2025',
-        description:
-            'Financiële ondersteuning voor ideeën die Gein mooier en socialer maken. Ontdek de criteria en plan een gesprek om hulp te krijgen bij je aanvraag.',
-        href: 'https://www.buurtplatformgein.nl/buurtbudget-2024-2025/',
-        actionLabel: 'Lees meer'
-    },
-    {
-        title: 'ANBI-status',
-        description:
-            'Buurtplatform Gein is een erkende ANBI-stichting. Transparantie over inkomsten en bestedingen vind je in het jaarverslag.',
-        href: 'https://www.buurtplatformgein.nl/anbi/',
-        actionLabel: 'Bekijk details'
-    },
-    {
-        title: 'Jaarverslag 2024',
-        description:
-            'Een overzicht van alle activiteiten, samenwerkingen en impact in de wijk. Download het verslag en lees wat we samen bereikten.',
-        href: 'https://www.buurtplatformgein.nl/jaarverslag',
-        actionLabel: 'Download PDF'
-    }
-];
-
-const newsItems: CardItem[] = [
-    {
-        title: 'Levensloopbestendig wooncomplex in Gein?',
-        description: 'Meedenken over nieuw woonaanbod dat past bij elke levensfase van bewoners.',
-        href: 'https://www.buurtplatformgein.nl/levensloopbestendig-wooncomplex-in-gein/',
-        actionLabel: 'Lees artikel'
-    },
-    {
-        title: 'Geen hoogspanningsstation naast Gein',
-        description: 'Laat je stem horen over plannen in de Gaasperzoom en bescherm onze leefomgeving.',
-        href: 'https://www.buurtplatformgein.nl/reageer-geen-hoogspanningsstation-naast-gein-in-de-gaasperzoom/',
-        actionLabel: 'Reageer mee'
-    },
-    {
-        title: 'Maak Gein levensloopbestendig',
-        description: 'Gezamenlijk plan om de wijk veilig, gezond en verbonden te houden.',
-        href: 'https://www.buurtplatformgein.nl/maak-van-gein-een-levensloopbestendige-wijk/',
-        actionLabel: 'Lees artikel'
-    },
-    {
-        title: 'Activiteitenkalender voor bewoners',
-        description: 'Welke ontmoetingen, sport en cultuur kun je binnenkort verwachten?',
-        href: 'https://www.buurtplatformgein.nl/welke-activiteiten-zijn-er-in-gein-voor-de-bewoners/',
-        actionLabel: 'Bekijk agenda'
-    }
-];
-
-const upcomingMoments = [
-    {
-        title: 'Wijkoverleg Stakeholders',
-        detail: 'Tweemaandelijks overleg met ruim 30 organisaties en bewoners om signalen te bundelen.'
-    },
-    {
-        title: 'Kwartaalgesprek met Gebiedsbeheer',
-        detail: 'Bespreking voortgang projecten, leefbaarheid en acties richting gemeente.'
-    },
-    {
-        title: 'Bijeenkomst met Democratisering',
-        detail: 'Structurele gesprekken voor snellere opvolging van knelpunten en bewonersinitiatieven.'
-    }
 ];
 
 const contactChannels: { title: string; description: string; href: string; icon: LucideIcon }[] = [
@@ -163,7 +128,7 @@ const SectionWrapper = ({ children, id, className = '' }: { children: ReactNode;
 const Page = () => {
     return (
         <main className='bg-[#eaa854] text-foreground'>
-            <header className='sticky top-0 z-30 border-b border-[#c9832c]/40 bg-white/95 backdrop-blur'>
+            <header className='sticky top-0 z-30 border-b border-[#c9832c]/40 bg-[#faeacd] backdrop-blur'>
                 <div className='mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 text-[#43160c] sm:px-6 lg:px-10'>
                     <div className='flex items-center gap-3'>
                         <Image src='/images/bpglogo.png' alt='Buurtplatform Gein logo' width={120} height={60} className='h-10 w-auto object-contain' />
@@ -193,7 +158,7 @@ const Page = () => {
                     poster='/images/screenshot1.png'>
                     <source src='/images/bpghero.mp4' type='video/mp4' />
                 </video>
-                <div className='absolute inset-0 bg-gradient-to-b from-[#1a0801]/85 via-[#d06129]/65 to-[#eaa854]/60' />
+                <div className='absolute inset-0 bg-gradient-to-b from-[#1a0801]/55 via-[#d06129]/40 to-[#eaa854]/35' />
                 <div className='relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-4 py-24 text-center text-white sm:px-6 lg:px-10'>
                     <Image src='/images/bpglogo.png' alt='Buurtplatform Gein logo' width={320} height={150} className='h-auto w-56 sm:w-72' />
                     <h1 className='text-4xl font-black leading-tight sm:text-5xl lg:text-6xl'>
@@ -302,37 +267,46 @@ const Page = () => {
                             <p className='text-xs text-[#8c3d16]'>Gein3 & 1 volgen</p>
                         </div>
                     </div>
-                    <div className='mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]'>
-                        <div className='space-y-6 text-base text-white/90'>
+                    <div className='mt-8 grid gap-8 lg:grid-cols-[2fr_1fr]'>
+                        <div className='overflow-hidden rounded-3xl border border-white/30 shadow-lg shadow-black/10'>
+                            <div className='relative aspect-square w-full'>
+                                <Image
+                                    src='/images/over-gein-map.png'
+                                    alt='Overzichtskaart met Gein1-4'
+                                    fill
+                                    className='object-cover'
+                                    sizes='(max-width: 768px) 100vw, 75vw'
+                                />
+                            </div>
+                        </div>
+                        <div className='space-y-6 text-sm text-white/90'>
                             <div>
-                                <h3 className='text-xl font-semibold uppercase tracking-wide text-white'>Bewoonde buurten</h3>
-                                <ul className='mt-3 space-y-2 text-sm text-white/85'>
+                                <h3 className='text-base font-semibold uppercase tracking-wide text-white'>Bewoonde buurten</h3>
+                                <ul className='mt-3 space-y-2 text-white/85'>
                                     <li>• Gein4 en Gein3 tellen de meeste bewoners; Gein2 is het kleinst.</li>
                                     <li>• Gein3 heeft vooral koopwoningen dankzij het voormalige Olympische woonplan.</li>
                                     <li>• In Gein1 wonen relatief weinig jongeren en 65-plussers.</li>
                                 </ul>
                             </div>
                             <div>
-                                <h3 className='text-xl font-semibold uppercase tracking-wide text-white'>Leeftijdsopbouw</h3>
-                                <p className='mt-3 text-sm text-white/85'>
-                                    De grootste groep is 25–45 jaar, behalve in Gein3 waar 45–65 jaar overheerst. Gein3 en Gein4 hebben veel gepensioneerden.
-                                </p>
+                                <h3 className='text-base font-semibold uppercase tracking-wide text-white'>Leeftijdsopbouw</h3>
+                                <p className='mt-3 text-white/85'>De grootste groep is 25–45 jaar, behalve in Gein3 waar 45–65 jaar overheerst. Gein3 en Gein4 hebben veel gepensioneerden.</p>
                             </div>
-                        </div>
-                        <div className='space-y-4 rounded-3xl border border-white/30 bg-white/10 p-6 text-sm text-white/90 shadow-inner shadow-black/10'>
-                            <p className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>Vooruitblik</p>
-                            <div className='space-y-5'>
-                                <div>
-                                    <p className='text-sm font-bold text-white'>1 · Groei door verdichting</p>
-                                    <p className='text-xs text-white/80'>GeinS en nieuwe hoogbouw bij metro Gein laten het inwonertal weer stijgen.</p>
-                                </div>
-                                <div>
-                                    <p className='text-sm font-bold text-white'>2 · Woningmix voor ouderen</p>
-                                    <p className='text-xs text-white/80'>Meer compacte woningen met zorgvoorzieningen houden senioren in de wijk.</p>
-                                </div>
-                                <div>
-                                    <p className='text-sm font-bold text-white'>3 · Verbonden buurt</p>
-                                    <p className='text-xs text-white/80'>Buurtactiviteiten, De Ster en scholen blijven cruciaal voor sociale veiligheid.</p>
+                            <div className='rounded-3xl border border-white/30 bg-white/15 p-5 shadow-inner shadow-black/10 backdrop-blur'>
+                                <h3 className='text-base font-semibold uppercase tracking-wide text-white'>Vooruitblik</h3>
+                                <div className='mt-3 space-y-4 text-white/90'>
+                                    <div>
+                                        <p className='text-sm font-bold text-white'>1 · Groei door verdichting</p>
+                                        <p className='text-xs text-white/80'>GeinS en nieuwe hoogbouw bij metro Gein laten het inwonertal weer stijgen.</p>
+                                    </div>
+                                    <div>
+                                        <p className='text-sm font-bold text-white'>2 · Woningmix voor ouderen</p>
+                                        <p className='text-xs text-white/80'>Meer compacte woningen met zorgvoorzieningen houden senioren in de wijk.</p>
+                                    </div>
+                                    <div>
+                                        <p className='text-sm font-bold text-white'>3 · Verbonden buurt</p>
+                                        <p className='text-xs text-white/80'>Buurtactiviteiten, De Ster en scholen blijven cruciaal voor sociale veiligheid.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -341,8 +315,8 @@ const Page = () => {
             </SectionWrapper>
 
             <SectionWrapper id='initiatieven'>
-                <div className='grid gap-6 md:grid-cols-[1.2fr_0.8fr]'>
-                    <div className='relative overflow-hidden rounded-3xl bg-card/80 p-8 text-white shadow-xl shadow-[#d06129]/10 backdrop-blur'>
+                <div className='rounded-3xl bg-card/80 p-8 text-white shadow-xl shadow-[#d06129]/10 backdrop-blur'>
+                    <div className='relative overflow-hidden rounded-3xl bg-white/5 p-8 text-white shadow-inner shadow-black/20'>
                         <Image
                             src='/images/onze%20missie%20card.png'
                             alt='Community highlights collage'
@@ -356,93 +330,14 @@ const Page = () => {
                             <p className='mt-4 text-base/relaxed text-white/85'>
                                 Van buurtbudget tot advies – we zorgen dat goede ideeën een podium en de juiste steun krijgen. Heb je een plan of vraag? Meld het en we denken direct mee.
                             </p>
-                            <div className='mt-8 grid gap-4 md:grid-cols-2'>
-                                {highlights.map((item) => (
-                                    <div
-                                        key={item.title}
-                                        className='flex h-full flex-col rounded-2xl border border-white/20 p-5 shadow-sm shadow-black/10'
-                                        style={{ backgroundColor: 'rgba(13, 94, 52, 0.65)' }}>
-                                        <h3 className='text-xl font-semibold text-white'>{item.title}</h3>
-                                        <p className='mt-2 text-sm text-white/85'>{item.description}</p>
-                                        {item.href && (
-                                            <a
-                                                href={item.href}
-                                                target='_blank'
-                                                rel='noreferrer'
-                                                className='mt-4 inline-flex w-fit rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#0d5e34]'>
-                                                {item.actionLabel}
-                                            </a>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='relative overflow-hidden rounded-3xl bg-card/80 p-8 text-white shadow-xl shadow-[#d06129]/10 backdrop-blur'>
-                        <Image
-                            src='/images/onze%20missie%20card.png'
-                            alt='In gesprek collage'
-                            fill
-                            className='object-cover opacity-25'
-                            sizes='(max-width: 768px) 100vw, 40vw'
-                        />
-                        <div className='relative z-10'>
-                            <p className='text-sm font-semibold uppercase tracking-wide text-white/70'>In gesprek</p>
-                            <h3 className='mt-3 text-3xl font-black leading-tight text-white'>Agenda van overlegmomenten</h3>
-                            <p className='mt-2 text-white/85'>
-                                Continu contact met partners zorgt dat signalen snel worden opgepakt.
-                            </p>
-                            <ul className='mt-6 space-y-5'>
-                                {upcomingMoments.map((moment) => (
-                                    <li
-                                        key={moment.title}
-                                        className='rounded-2xl border border-white/20 p-4 shadow-sm shadow-black/10'
-                                        style={{ backgroundColor: 'rgba(13, 94, 52, 0.65)' }}>
-                                        <p className='text-lg font-semibold text-white'>{moment.title}</p>
-                                        <p className='text-sm text-white/80'>{moment.detail}</p>
-                                    </li>
-                                ))}
-                            </ul>
+                            <HighlightsShowcase />
                         </div>
                     </div>
                 </div>
             </SectionWrapper>
 
             <SectionWrapper id='nieuws' className='bg-[#d06129]'>
-                <div className='rounded-3xl bg-white/10 p-8 text-[#fff8ef] shadow-xl shadow-black/10 backdrop-blur'>
-                    <div className='flex flex-wrap items-center justify-between gap-4'>
-                        <div>
-                            <p className='text-sm font-semibold uppercase tracking-wide text-white/70'>Actuele verhalen</p>
-                            <h2 className='text-4xl font-black leading-tight text-white sm:text-5xl'>Nieuws uit de buurt</h2>
-                        </div>
-                        <a
-                            href='https://www.buurtplatformgein.nl/nieuws/'
-                            target='_blank'
-                            rel='noreferrer'
-                            className='flex items-center gap-2 rounded-full border border-white/70 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white hover:text-[#d06129]'>
-                            <Newspaper className='size-4' /> Alle berichten
-                        </a>
-                    </div>
-                    <div className='mt-8 grid gap-6 md:grid-cols-2'>
-                        {newsItems.map((item) => (
-                            <article key={item.title} className='rounded-2xl border border-white/20 bg-white/10 p-5 text-white shadow-sm shadow-black/10'>
-                                <h3 className='text-xl font-semibold'>{item.title}</h3>
-                                <p className='mt-2 text-white/85'>{item.description}</p>
-                                {item.href && (
-                                    <a
-                                        href={item.href}
-                                        target='_blank'
-                                        rel='noreferrer'
-                                        className='mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white underline-offset-4 hover:underline'>
-                                        {item.actionLabel}
-                                        <span aria-hidden>→</span>
-                                    </a>
-                                )}
-                            </article>
-                        ))}
-                    </div>
-                </div>
+                <NewsShowcase />
             </SectionWrapper>
 
             <SectionWrapper id='agenda'>
@@ -450,20 +345,14 @@ const Page = () => {
                     <p className='text-sm font-semibold uppercase tracking-[0.3em]'>Agenda</p>
                     <h2 className='mt-3 text-4xl font-black leading-tight sm:text-5xl'>Activiteiten & ontmoetingen</h2>
                     <p className='mt-4 max-w-3xl text-accent-foreground/90'>
-                        We vullen de agenda continu met buurtfeesten, workshops, overlegmomenten en activiteiten uit partnerorganisaties. Heb jij iets voor de kalender? Meld het hieronder.
+                        We vullen de agenda continu met buurtfeesten, workshops, overlegmomenten en activiteiten uit partnerorganisaties. Hieronder vind je alvast twee grote momenten voor 2026. Heb jij iets voor de kalender? Meld het hieronder.
                     </p>
                     <div className='mt-6 flex flex-wrap gap-4'>
-                        <a
-                            href='https://www.buurtplatformgein.nl/agenda'
-                            target='_blank'
-                            rel='noreferrer'
-                            className='inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-lg shadow-[#d06129]/30'>
-                            <CalendarDays className='size-4' /> Bekijk agenda
-                        </a>
                         <a href='#contact' className='inline-flex items-center gap-2 rounded-full border border-white/60 px-5 py-2 text-sm font-semibold text-white'>
                             <MessageSquare className='size-4' /> Meld activiteit aan
                         </a>
                     </div>
+                    <AgendaShowcase events={agendaEvents} />
                 </div>
             </SectionWrapper>
 
@@ -563,21 +452,21 @@ const Page = () => {
                 </div>
             </SectionWrapper>
 
-            <footer id='contact' className='bg-[#43160c] px-4 py-12 text-white sm:px-6 lg:px-10'>
+            <footer id='contact' className='bg-[#faeacd] px-4 py-12 text-[#43160c] sm:px-6 lg:px-10'>
                 <div className='mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between'>
                     <div>
-                        <p className='text-sm uppercase tracking-[0.3em] text-white/70'>Buurtplatform Gein</p>
+                        <p className='text-sm uppercase tracking-[0.3em] text-[#43160c]/70'>Buurtplatform Gein</p>
                         <h3 className='text-3xl font-semibold'>Voor elkaar. Met elkaar.</h3>
-                        <p className='mt-3 text-white/80'>Samen houden we de buurt warm, veilig en toekomstbestendig.</p>
+                        <p className='mt-3 text-[#43160c]/80'>Samen houden we de buurt warm, veilig en toekomstbestendig.</p>
                     </div>
                     <div className='flex flex-wrap gap-4 text-sm font-medium uppercase tracking-wide'>
-                        <a href='#missie' className='rounded-full border border-white/30 px-4 py-2 hover:bg-white/10'>Missie</a>
-                        <a href='#nieuws' className='rounded-full border border-white/30 px-4 py-2 hover:bg-white/10'>Nieuws</a>
-                        <a href='#agenda' className='rounded-full border border-white/30 px-4 py-2 hover:bg-white/10'>Agenda</a>
-                        <a href='#newsletter' className='rounded-full border border-white/30 px-4 py-2 hover:bg-white/10'>Contact</a>
+                        <a href='#missie' className='rounded-full border border-[#43160c]/30 px-4 py-2 text-[#43160c] hover:bg-[#43160c]/10'>Missie</a>
+                        <a href='#nieuws' className='rounded-full border border-[#43160c]/30 px-4 py-2 text-[#43160c] hover:bg-[#43160c]/10'>Nieuws</a>
+                        <a href='#agenda' className='rounded-full border border-[#43160c]/30 px-4 py-2 text-[#43160c] hover:bg-[#43160c]/10'>Agenda</a>
+                        <a href='#newsletter' className='rounded-full border border-[#43160c]/30 px-4 py-2 text-[#43160c] hover:bg-[#43160c]/10'>Contact</a>
                     </div>
                 </div>
-                <div className='mx-auto mt-6 max-w-6xl border-t border-white/20 pt-4 text-sm text-white/70'>
+                <div className='mx-auto mt-6 max-w-6xl border-t border-[#43160c]/20 pt-4 text-sm text-[#43160c]/70'>
                     © {new Date().getFullYear()} Buurtplatform Gein • ANBI-stichting • Site gebouwd met Next.js
                 </div>
             </footer>

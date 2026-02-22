@@ -1,0 +1,25 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#faeacd" />
+      <stop offset="100%" stop-color="#f3d9b8" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#ground)" />
+  <g fill="none" stroke="#e2cda7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.75">
+    <path d="M120 850 C120 700 80 640 80 560 C80 480 140 420 140 360 C140 300 90 260 90 200" />
+    <path d="M146 850 C146 710 190 650 190 560 C190 480 130 430 130 360 C130 300 180 260 180 200" />
+    <path d="M230 850 C230 700 260 640 260 560 C260 490 220 430 220 360 C220 300 260 250 260 200" />
+    <path d="M1460 850 C1460 700 1500 640 1500 560 C1500 480 1440 430 1440 360 C1440 300 1490 260 1490 200" />
+    <path d="M1520 850 C1520 710 1560 650 1560 560 C1560 470 1490 420 1490 350 C1490 280 1530 240 1530 190" />
+    <path d="M1380 850 C1380 700 1340 640 1340 560 C1340 480 1400 430 1400 360 C1400 300 1350 250 1350 200" />
+  </g>
+  <g fill="#efd9b7" opacity="0.7">
+    <circle cx="260" cy="330" r="110" />
+    <circle cx="220" cy="260" r="90" />
+    <circle cx="140" cy="320" r="80" />
+    <circle cx="1340" cy="320" r="110" />
+    <circle cx="1400" cy="250" r="90" />
+    <circle cx="1500" cy="320" r="80" />
+  </g>
+</svg>

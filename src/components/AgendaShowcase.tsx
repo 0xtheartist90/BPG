@@ -116,7 +116,8 @@ const AgendaShowcase = ({ events }: { events: AgendaEvent[] }) => {
             {events.map((event, index) => (
                 <article
                     key={event.title}
-                    className='rounded-2xl border border-white/20 bg-white/10 p-5 text-white shadow shadow-black/10 transition hover:-translate-y-0.5 hover:shadow-white/30'
+                    className='rounded-2xl border border-white/20 p-5 text-white shadow-sm shadow-black/10 transition hover:-translate-y-0.5 hover:shadow-white/30'
+                    style={{ backgroundColor: 'rgba(13, 94, 52, 0.65)' }}
                     onClick={() => setActiveIndex(index)}>
                     <div className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>
                         {event.date} • {event.time}
@@ -126,7 +127,7 @@ const AgendaShowcase = ({ events }: { events: AgendaEvent[] }) => {
                     <p className='mt-3 text-white/90'>{event.description}</p>
                     <button
                         type='button'
-                        className='mt-4 inline-flex items-center gap-2 rounded-full border border-white/60 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white'
+                        className='mt-4 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white'
                         onClick={(e) => {
                             e.stopPropagation();
                             setActiveIndex(index);

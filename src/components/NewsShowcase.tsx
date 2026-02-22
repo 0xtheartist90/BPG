@@ -6,8 +6,18 @@ import Link from 'next/link';
 import { ArrowRight, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { newsItems } from '@/data/newsItems';
 
+const cardLayouts = [
+    { mdCols: 'md:col-span-2', mdRows: 'md:row-span-2', variant: 'text', background: '#cabafe', textColor: '#1f1333', accent: '#ffffff' },
+    { mdCols: 'md:col-span-4', mdRows: 'md:row-span-2', variant: 'image' },
+    { mdCols: 'md:col-span-2', mdRows: 'md:row-span-2', variant: 'hybrid', background: '#f7935c', textColor: '#2a1204' },
+    { mdCols: 'md:col-span-2', mdRows: 'md:row-span-2', variant: 'hybrid', background: '#bce1ff', textColor: '#052039' },
+    { mdCols: 'md:col-span-2', mdRows: 'md:row-span-2', variant: 'hybrid', background: '#ffe0a3', textColor: '#3c1d00' },
+    { mdCols: 'md:col-span-4', mdRows: 'md:row-span-2', variant: 'image' },
+    { mdCols: 'md:col-span-2', mdRows: 'md:row-span-2', variant: 'text', background: '#f6ff7a', textColor: '#1b1b05', accent: '#ffffff' }
+];
+
 const NewsShowcase = () => {
-    const ITEMS_PER_PAGE = 3;
+    const ITEMS_PER_PAGE = 7;
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [page, setPage] = useState(0);
 
@@ -40,43 +50,82 @@ const NewsShowcase = () => {
     const visibleItems = newsItems.slice(page * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE + ITEMS_PER_PAGE);
 
     return (
-        <div className='rounded-3xl bg-white/10 p-8 text-[#fff8ef] shadow-xl shadow-black/10 backdrop-blur'>
-            <div className='flex flex-wrap items-center justify-between gap-4'>
-                <div>
-                    <p className='text-sm font-semibold uppercase tracking-wide text-white/70'>Actuele verhalen</p>
-                    <h2 className='text-4xl font-black leading-tight text-white sm:text-5xl'>Nieuws uit de buurt</h2>
-                </div>
-            </div>
-            <div className='mt-8 grid gap-6 md:grid-cols-3'>
+        <div className='space-y-8'>
+            <div className='grid gap-5 md:grid-cols-6 md:auto-rows-[165px]'>
                 {visibleItems.map((item, index) => {
                     const globalIndex = page * ITEMS_PER_PAGE + index;
+                    const layout = cardLayouts[index] ?? { mdCols: 'md:col-span-2', mdRows: 'md:row-span-1', variant: 'text', background: '#fff6eb', textColor: '#2b1506', accent: '#2b1506' };
+                    const combinedClasses = ['col-span-1', 'rounded-[32px] overflow-hidden'].concat(layout.mdCols ?? '', layout.mdRows ?? '').join(' ');
+
+                    if (layout.variant === 'image') {
+                        return (
+                            <article key={item.slug} className={`${combinedClasses} relative bg-white/10`}> 
+                                <Image src={item.image} alt={item.title} fill className='object-cover' sizes='(max-width: 768px) 100vw, 60vw' />
+                                <div className='absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent' />
+                                <div className='absolute bottom-4 left-4 right-4 flex items-end justify-between text-white'>
+                                    <div>
+                                        <p className='text-xs font-bold uppercase tracking-[0.4em]'>{item.date ?? 'Gein'}</p>
+                                        <h3 className='mt-2 text-xl font-semibold leading-tight'>{item.title}</h3>
+                                    </div>
+                                    <button
+                                        type='button'
+                                        onClick={() => openArticle(globalIndex)}
+                                        className='inline-flex size-12 items-center justify-center rounded-full bg-white/90 text-[#d06129] shadow-lg shadow-black/20'>
+                                        <ArrowRight className='size-5' />
+                                    </button>
+                                </div>
+                            </article>
+                        );
+                    }
+
+                    if (layout.variant === 'hybrid') {
+                        return (
+                            <article
+                                key={item.slug}
+                                className={`${combinedClasses} flex h-full flex-col overflow-hidden rounded-[32px] shadow-lg shadow-black/15`}>
+                                <div className='basis-[45%] rounded-t-[32px] p-5' style={{ backgroundColor: layout.background, color: layout.textColor }}>
+                                    <p className='text-xs font-black uppercase tracking-[0.4em]'>{item.date ?? 'Gein'}</p>
+                                    <h3 className='mt-2 text-lg font-black leading-tight'>{item.title}</h3>
+                                </div>
+                                <div className='relative basis-[55%] overflow-hidden rounded-b-[32px]'>
+                                    <Image src={item.image} alt={item.title} fill className='object-cover' sizes='(max-width: 768px) 100vw, 40vw' />
+                                    <button
+                                        type='button'
+                                        onClick={() => openArticle(globalIndex)}
+                                        className='absolute bottom-4 right-4 inline-flex size-11 items-center justify-center rounded-full border border-black/20 bg-white/80 text-[#d06129] shadow'>
+                                        <ArrowRight className='size-4' />
+                                    </button>
+                                </div>
+                            </article>
+                        );
+                    }
 
                     return (
-                        <article key={item.slug} className='flex h-full min-h-[30rem] max-h-[30rem] flex-col rounded-2xl border border-white/20 bg-white/10 p-5 text-white shadow-sm shadow-black/10'>
-                        <div className='relative mb-4 h-40 w-full overflow-hidden rounded-2xl bg-white/10'>
-                            <Image src={item.image} alt={item.title} fill className='object-cover' sizes='(max-width: 768px) 100vw, 50vw' />
-                        </div>
-                        <div className='flex items-center justify-between gap-3'>
+                        <article
+                            key={item.slug}
+                            className={`${combinedClasses} flex h-full flex-col justify-between p-6`}
+                            style={{ backgroundColor: layout.background, color: layout.textColor }}>
                             <div>
-                                <p className='text-xs uppercase tracking-[0.3em] text-white/60'>{item.date ?? 'Nieuw'}</p>
-                                <h3 className='text-xl font-semibold'>{item.title}</h3>
+                                <p className='text-xs font-black uppercase tracking-[0.5em]'>{item.date ?? 'Gein'}</p>
+                                <h3 className={`mt-3 font-black ${index === 0 ? 'text-2xl' : 'text-xl'}`}>{item.title}</h3>
+                                <p className='mt-3 text-sm leading-relaxed text-black/70' style={{ WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', display: '-webkit-box', overflow: 'hidden' }}>
+                                    {item.excerpt}
+                                </p>
                             </div>
-                            <span className='rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-wide text-white/70'>Gein</span>
-                        </div>
-                        <p
-                            className='mt-3 flex-1 text-white/85'
-                            style={{ display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                            {item.excerpt}
-                        </p>
-                        <div className='mt-5 flex flex-wrap gap-3'>
-                            <button
-                                type='button'
-                                onClick={() => openArticle(globalIndex)}
-                                className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#d06129] shadow shadow-[#d06129]/30'>
-                                Bekijk volledig bericht <ArrowRight className='size-3.5 text-[#d06129]' />
-                            </button>
-                        </div>
-                    </article>
+                            <div className='mt-6 flex items-center justify-between'>
+                                {item.tag && (
+                                    <span className='text-xs font-semibold uppercase tracking-[0.4em]' style={{ color: layout.accent }}>
+                                        {item.tag}
+                                    </span>
+                                )}
+                                <button
+                                    type='button'
+                                    onClick={() => openArticle(globalIndex)}
+                                    className='inline-flex size-11 items-center justify-center rounded-full border border-black/20 bg-white/80 text-[#d06129] shadow'>
+                                    <ArrowRight className='size-4' />
+                                </button>
+                            </div>
+                        </article>
                     );
                 })}
             </div>

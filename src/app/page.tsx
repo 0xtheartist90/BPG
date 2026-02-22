@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 
 import Image from 'next/image';
@@ -81,7 +84,7 @@ const missionCardDesigns: MissionCardDesign[] = [
     {
         variant: 'imageSplit',
         className: 'lg:col-span-2',
-        background: '#2f4f3b',
+        background: 'rgba(13, 94, 52, 0.65)',
         image: '/images/stemvandebuurt.png'
     }
 ];
@@ -153,23 +156,53 @@ const SectionWrapper = ({ children, id, className = '' }: { children: ReactNode;
 );
 
 const Page = () => {
+    const [activeSection, setActiveSection] = useState<string | null>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { threshold: 0.3 }
+        );
+
+        const sections = document.querySelectorAll('section[id]');
+        sections.forEach((section) => observer.observe(section));
+
+        return () => {
+            sections.forEach((section) => observer.unobserve(section));
+        };
+    }, []);
+
     return (
         <main className='bg-background text-foreground'>
             <header className='sticky top-0 z-30 border-b border-[#c9832c]/40 bg-[#faeacd] backdrop-blur'>
                 <div className='mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 text-[#43160c] sm:px-6 lg:px-10'>
                     <div className='flex items-center gap-3'>
-                        <Image src='/images/logotopnav.png' alt='Buurtplatform Gein logo' width={140} height={60} className='h-10 w-auto object-contain' />
+                        <a href='#' className='flex items-center gap-3'>
+                            <Image src='/images/logotopnav.png' alt='Buurtplatform Gein logo' width={140} height={60} className='h-10 w-auto object-contain' />
+                        </a>
                     </div>
                     <nav className='hidden items-center gap-6 text-sm font-semibold uppercase tracking-wide md:flex'>
                         {navLinks.map((link) => (
-                            <a key={link.href} href={link.href} className='transition hover:text-primary'>
+                            <a 
+                                key={link.href} 
+                                href={link.href} 
+                                className={`transition-colors duration-300 hover:text-primary ${
+                                    activeSection && activeSection === link.href.slice(1) ? 'text-primary' : ''
+                                }`}
+                            >
                                 {link.label}
                             </a>
                         ))}
                     </nav>
                     <a
                         href='#contact'
-                        className='rounded-full bg-[#d06129] px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow shadow-[#d06129]/30'>
+                        className='button-lift rounded-full bg-[#ff4d00] px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow shadow-[#ff4d00]/30'>
                         Doe mee
                     </a>
                 </div>
@@ -195,20 +228,13 @@ const Page = () => {
                     <div className='flex flex-wrap gap-4'>
                         <a
                             href='#contact'
-                            className='rounded-full bg-[#d06129] px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-[#d06129]/40 transition hover:-translate-y-0.5'>
+                            className='button-lift rounded-full bg-[#ff4d00] w-40 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-[#ff4d00]/40'>
                             Doe mee
                         </a>
                         <a
-                            href='https://chat.whatsapp.com/FGJyu57xFQWGDcq7eF7gOA'
-                            target='_blank'
-                            rel='noreferrer'
-                            className='rounded-full bg-white/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white backdrop-blur transition hover:bg-white/30'>
-                            WhatsApp Community
-                        </a>
-                        <a
-                            href='#newsletter'
-                            className='rounded-full border border-white/60 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-white/10'>
-                            Nieuwsbrief
+                            href='#nieuws'
+                            className='button-lift rounded-full bg-white/20 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white backdrop-blur transition'>
+                            Laatste nieuws
                         </a>
                     </div>
                 </div>
@@ -412,7 +438,7 @@ const Page = () => {
                             Van buurtbudget tot advies – we geven goede ideeën een podium, koppelen mensen aan elkaar en zorgen dat partners aansluiten. Deel jouw plan en we denken direct mee over stappen, middelen en zichtbaarheid.
                         </p>
                     </div>
-                    <div className='mt-8 rounded-[32px] border border-[#f3d9ba] bg-[#fff6eb]/85 p-6 shadow-xl shadow-[#d9b38b]/30 backdrop-blur-sm'>
+                    <div className='mt-8'>
                         <HighlightsShowcase />
                     </div>
                 </SectionWrapper>
@@ -455,7 +481,7 @@ const Page = () => {
                             </a>
                         </div>
                     </div>
-                    <div className='mt-8 rounded-[32px] border border-[#f3d9ba] bg-[#fff6eb]/85 p-6 shadow-xl shadow-[#d9b38b]/30 backdrop-blur-sm'>
+                    <div className='mt-8'>
                         <AgendaShowcase events={agendaEvents} />
                     </div>
                 </SectionWrapper>
@@ -463,114 +489,113 @@ const Page = () => {
 
             <div className='relative bg-[#d06129] text-white'>
                 <SectionWrapper id='newsletter' className='text-white'>
-                    <div className='space-y-4 text-left'>
+                    <div className='space-y-3 text-left'>
                         <span className='inline-flex h-1 w-32 rounded-full bg-[#33c17d] sm:w-48' />
-                        <h2 className='text-[clamp(3rem,5.5vw,4.5rem)] font-black uppercase leading-tight text-white'>Contact & meedoen</h2>
-                        <p className='text-xl font-semibold text-[#33c17d]'>Laat van je horen via het formulier of onze kanalen.</p>
+                        <h2 className='text-[clamp(2.75rem,5vw,4rem)] font-black uppercase leading-tight text-white'>Contact & meedoen</h2>
+                        <p className='text-lg font-semibold text-[#33c17d]'>Laat van je horen via het formulier of onze kanalen.</p>
                     </div>
-                    <div className='mt-10 grid gap-6 lg:grid-cols-2'>
-                            <div className='space-y-6 rounded-3xl border border-white/30 bg-white/10 p-8 shadow-lg shadow-black/10'>
-                                <div className='rounded-2xl border border-white/20 p-5'>
-                                    <p className='text-sm font-semibold uppercase tracking-wide text-white/70'>Contactformulier</p>
-                                    <h3 className='mt-3 text-4xl font-black leading-tight text-white sm:text-5xl'>Laat van je horen</h3>
-                                    <p className='mt-4 text-white/85'>
-                                        Wil je samenwerken, vrijwilliger worden of zorgen delen? Vul het formulier in of kies een kanaal hieronder. We reageren zo snel mogelijk.
-                                    </p>
-                                    <form className='mt-6 space-y-4'>
+                    <div className='mt-8 grid gap-4 lg:grid-cols-2'>
+                        <div className='space-y-4 rounded-3xl border border-white/25 bg-white/5 p-6 shadow-lg shadow-black/10'>
+                            <div className='rounded-2xl border border-white/15 bg-white/5 p-4'>
+                                <p className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>Contactformulier</p>
+                                <h3 className='mt-2 text-3xl font-black leading-tight text-white sm:text-4xl'>Laat van je horen</h3>
+                                <p className='mt-3 text-sm text-white/85'>Wil je samenwerken of zorgen delen? Vul het formulier in of kies een kanaal.</p>
+                                <form className='mt-5 space-y-4'>
+                                    <div className='grid gap-4 sm:grid-cols-2'>
                                         <div>
-                                            <label htmlFor='name' className='text-sm font-semibold text-white'>Naam</label>
+                                            <label htmlFor='name' className='text-xs font-semibold text-white'>Naam</label>
                                             <input
                                                 id='name'
                                                 name='name'
                                                 type='text'
                                                 placeholder='Je naam'
-                                                className='mt-2 w-full rounded-2xl border border-white/40 bg-white/90 px-4 py-3 text-base text-[#43160c] placeholder:text-[#43160c]/60'
+                                                className='mt-2 w-full rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] placeholder:text-[#43160c]/60'
                                             />
                                         </div>
                                         <div>
-                                            <label htmlFor='email' className='text-sm font-semibold text-white'>E-mail</label>
+                                            <label htmlFor='email' className='text-xs font-semibold text-white'>E-mail</label>
                                             <input
                                                 id='email'
                                                 name='email'
                                                 type='email'
                                                 placeholder='je@email.nl'
-                                                className='mt-2 w-full rounded-2xl border border-white/40 bg-white/90 px-4 py-3 text-base text-[#43160c] placeholder:text-[#43160c]/60'
+                                                className='mt-2 w-full rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] placeholder:text-[#43160c]/60'
                                             />
                                         </div>
-                                        <div>
-                                            <label htmlFor='message' className='text-sm font-semibold text-white'>Bericht</label>
-                                            <textarea
-                                                id='message'
-                                                name='message'
-                                                rows={4}
-                                                placeholder='Waar kunnen we mee helpen?'
-                                                className='mt-2 w-full rounded-2xl border border-white/40 bg-white/90 px-4 py-3 text-base text-[#43160c] placeholder:text-[#43160c]/60'
-                                            />
-                                        </div>
-                                        <button type='button' className='w-full rounded-2xl bg-white px-5 py-3 text-base font-semibold text-[#d06129] shadow-md shadow-[#d06129]/30'>
-                                            Verstuur bericht
-                                        </button>
-                                    </form>
-                                </div>
-                                <div className='rounded-2xl border border-white/20 p-5'>
-                                    <p className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>Nieuwsbrief</p>
-                                    <h3 className='mt-2 text-3xl font-bold leading-tight text-white'>Blijf op de hoogte</h3>
-                                    <p className='mt-3 text-white/85'>
-                                        Schrijf je in en ontvang maandelijks het laatste nieuws, agenda-items en oproepen uit Gein.
-                                    </p>
-                                    <div className='mt-4 flex flex-col gap-3 sm:flex-row'>
-                                        <input
-                                            type='email'
-                                            placeholder='E-mailadres'
-                                            className='flex-1 rounded-2xl border border-white/30 bg-white/90 px-4 py-3 text-base text-[#43160c] placeholder:text-[#43160c]/60'
-                                        />
-                                        <button className='rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#d06129] shadow-lg shadow-[#d06129]/30'>
-                                            Aanmelden
-                                        </button>
                                     </div>
+                                    <div>
+                                        <label htmlFor='message' className='text-xs font-semibold text-white'>Bericht</label>
+                                        <textarea
+                                            id='message'
+                                            name='message'
+                                            rows={3}
+                                            placeholder='Waar kunnen we mee helpen?'
+                                            className='mt-2 w-full rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] placeholder:text-[#43160c]/60'
+                                        />
+                                    </div>
+                                    <button type='button' className='w-full rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#d06129] shadow-md shadow-[#d06129]/30'>
+                                        Verstuur bericht
+                                    </button>
+                                </form>
+                            </div>
+                            <div className='rounded-2xl border border-white/15 bg-white/5 p-4 sm:flex sm:items-center sm:justify-between sm:gap-4'>
+                                <div>
+                                    <p className='text-[10px] font-semibold uppercase tracking-[0.35em] text-white/70'>Nieuwsbrief</p>
+                                    <h3 className='mt-1 text-xl font-bold leading-tight text-white'>Blijf op de hoogte</h3>
+                                    <p className='mt-2 text-sm text-white/80'>Nieuws, agenda en oproepen direct in je inbox.</p>
+                                </div>
+                                <div className='mt-4 flex w-full flex-col gap-3 sm:mt-0 sm:w-auto sm:flex-row'>
+                                    <input
+                                        type='email'
+                                        placeholder='E-mailadres'
+                                        className='flex-1 rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] placeholder:text-[#43160c]/60'
+                                    />
+                                    <button className='rounded-xl bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#d06129] shadow shadow-[#d06129]/25'>
+                                        Aanmelden
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className='space-y-6 rounded-3xl border border-white/30 bg-white/10 p-8 text-white shadow-lg shadow-black/10'>
-                                <div className='rounded-2xl border border-dashed border-white/30 p-5'>
-                                    <p className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>Kanalen</p>
-                                    <div className='mt-4 flex gap-4'>
-                                        {contactChannels.map((channel) => (
-                                            <a
-                                                key={channel.title}
-                                                href={channel.href}
-                                                target={channel.href.startsWith('#') ? '_self' : '_blank'}
-                                                rel={channel.href.startsWith('#') ? undefined : 'noreferrer'}
-                                                className='flex flex-col items-center gap-3 rounded-2xl border border-white/30 px-4 py-4 text-white transition hover:-translate-y-0.5 hover:border-white/60'>
-                                                <span className='inline-flex items-center justify-center rounded-full bg-white/10 p-3 text-white'>
-                                                    <channel.icon className='size-6' />
-                                                </span>
-                                                <div className='text-center'>
-                                                    <p className='text-base font-semibold'>{channel.title}</p>
-                                                    <p className='text-sm text-white/80'>{channel.description}</p>
-                                                </div>
-                                            </a>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className='rounded-2xl border border-white/30 p-5'>
-                                    <p className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>Adres</p>
-                                    <h3 className='mt-3 text-2xl font-bold leading-tight text-white'>Buurthub De Ster</h3>
-                                    <p className='text-white'>Woudrichemstraat 8, 1106 LG Amsterdam</p>
-                                    <p className='mt-3 text-sm text-white/80'>
-                                        Kom langs tijdens activiteiten of neem vooraf contact op om een afspraak te plannen.
-                                    </p>
-                                    <div className='mt-4 overflow-hidden rounded-2xl border border-white/30'>
-                                        <iframe
-                                            title='Google Maps - Buurthub De Ster'
-                                            src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2434.770649091407!2d4.987295676800463!3d52.28737507207966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c60b1cfdcfe28b%3A0x60f18d98ad18c05e!2sWoudrichemstraat%208%2C%201106%20LG%20Amsterdam!5e0!3m2!1snl!2snl!4v1708461230000!5m2!1snl!2snl'
-                                            className='h-64 w-full border-0'
-                                            loading='lazy'
-                                            referrerPolicy='no-referrer-when-downgrade'
-                                        />
-                                    </div>
+                        <div className='space-y-4 rounded-3xl border border-white/25 bg-white/5 p-6 text-white shadow-lg shadow-black/10'>
+                            <div className='rounded-2xl border border-dashed border-white/25 p-4'>
+                                <p className='text-[10px] font-semibold uppercase tracking-[0.4em] text-white/70'>Kanalen</p>
+                                <div className='mt-3 grid gap-3 sm:grid-cols-2'>
+                                    {contactChannels.map((channel) => (
+                                        <a
+                                            key={channel.title}
+                                            href={channel.href}
+                                            target={channel.href.startsWith('#') ? '_self' : '_blank'}
+                                            rel={channel.href.startsWith('#') ? undefined : 'noreferrer'}
+                                            className='flex flex-col items-center gap-2 rounded-2xl border border-white/30 px-4 py-3 text-white transition hover:-translate-y-0.5 hover:border-white/60'
+                                        >
+                                            <span className='inline-flex items-center justify-center rounded-full bg-white/10 p-2.5 text-white'>
+                                                <channel.icon className='size-5' />
+                                            </span>
+                                            <div className='text-center'>
+                                                <p className='text-sm font-semibold'>{channel.title}</p>
+                                                <p className='text-xs text-white/80'>{channel.description}</p>
+                                            </div>
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
+                            <div className='rounded-2xl border border-white/25 p-4'>
+                                <p className='text-[10px] font-semibold uppercase tracking-[0.4em] text-white/70'>Adres</p>
+                                <h3 className='mt-2 text-xl font-bold leading-tight text-white'>Buurthub De Ster</h3>
+                                <p className='text-sm text-white'>Woudrichemstraat 8, 1106 LG Amsterdam</p>
+                                <p className='mt-2 text-xs text-white/80'>Kom langs tijdens activiteiten of maak vooraf een afspraak.</p>
+                                <div className='mt-3 overflow-hidden rounded-2xl border border-white/25'>
+                                    <iframe
+                                        title='Google Maps - Buurthub De Ster'
+                                        src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2434.770649091407!2d4.987295676800463!3d52.28737507207966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c60b1cfdcfe28b%3A0x60f18d98ad18c05e!2sWoudrichemstraat%208%2C%201106%20LG%20Amsterdam!5e0!3m2!1snl!2snl!4v1708461230000!5m2!1snl!2snl'
+                                        className='h-52 w-full border-0'
+                                        loading='lazy'
+                                        referrerPolicy='no-referrer-when-downgrade'
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </SectionWrapper>
             </div>
@@ -585,7 +610,7 @@ const Page = () => {
                         <div>
                             <p className='text-xs font-semibold uppercase tracking-[0.45em] text-[#43160c]/70'>Buurtplatform Gein</p>
                             <h3 className='text-[clamp(2rem,4vw,2.75rem)] font-black leading-tight'>Voor elkaar. Met elkaar.</h3>
-                            <p className='mt-3 text-base text-[#43160c]/80'>Samen houden we de buurt warm, veilig en toekomstbestendig.</p>
+                            <p className='mt-3 text-base font-semibold text-[#ff4d00]'>Samen houden we de buurt warm, veilig en toekomstbestendig.</p>
                         </div>
                     </div>
                     <div className='flex flex-col items-start gap-4 sm:items-end'>

@@ -16,8 +16,10 @@ const cardLayouts = [
     { mdCols: 'md:col-span-2', mdRows: 'md:row-span-2', variant: 'text', background: '#f6ff7a', textColor: '#1b1b05', accent: '#ffffff' }
 ];
 
+const activeLayouts = [cardLayouts[0], cardLayouts[1], cardLayouts[5], cardLayouts[6]];
+
 const NewsShowcase = () => {
-    const ITEMS_PER_PAGE = 7;
+    const ITEMS_PER_PAGE = activeLayouts.length;
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [page, setPage] = useState(0);
 
@@ -54,7 +56,7 @@ const NewsShowcase = () => {
             <div className='grid gap-5 md:grid-cols-6 md:auto-rows-[165px]'>
                 {visibleItems.map((item, index) => {
                     const globalIndex = page * ITEMS_PER_PAGE + index;
-                    const layout = cardLayouts[index] ?? { mdCols: 'md:col-span-2', mdRows: 'md:row-span-1', variant: 'text', background: '#fff6eb', textColor: '#2b1506', accent: '#2b1506' };
+                    const layout = activeLayouts[index % activeLayouts.length] ?? { mdCols: 'md:col-span-2', mdRows: 'md:row-span-1', variant: 'text', background: '#fff6eb', textColor: '#2b1506', accent: '#2b1506' };
                     const combinedClasses = ['col-span-1', 'rounded-[32px] overflow-hidden'].concat(layout.mdCols ?? '', layout.mdRows ?? '').join(' ');
 
                     if (layout.variant === 'image') {

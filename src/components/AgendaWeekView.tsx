@@ -121,6 +121,7 @@ const AgendaWeekView = ({
                     const dayEvents = eventsByDate.get(key) ?? [];
                     const isSunday = idx === 6;
                     const isToday = key === todayKey;
+
                     return (
                         <button
                             key={key}

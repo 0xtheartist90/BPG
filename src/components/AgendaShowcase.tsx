@@ -1,185 +1,209 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import Image from 'next/image';
-import { CalendarPlus, X } from 'lucide-react';
 
-type AgendaEvent = {
-    date: string;
-    time: string;
-    title: string;
-    location: string;
-    description: string;
-    image: string;
-    start: string; // ISO string with timezone
-    end: string; // ISO string with timezone
+import type { AgendaEvent } from '@/types/agenda';
+
+import { CalendarPlus, ChevronLeft, ChevronRight } from 'lucide-react';
+
+type AgendaShowcaseProps = {
+    events: AgendaEvent[];
+    onEventClick: (event: AgendaEvent) => void;
+    moreInfo: string;
 };
 
-const formatICSDate = (isoString: string) => {
-    const date = new Date(isoString);
+const AgendaShowcase = ({ events, onEventClick, moreInfo }: AgendaShowcaseProps) => {
+    const getTimestamp = useCallback((event: AgendaEvent) => {
+        if (event.start) {
+            const ts = Date.parse(event.start);
 
-    return date
-        .toISOString()
-        .replace(/[-:]/g, '')
-        .replace(/\.\d{3}Z$/, 'Z');
-};
+            if (!Number.isNaN(ts)) {
+                return ts;
+            }
+        }
 
-const buildICalendarFile = (event: AgendaEvent) => {
-    const lines = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//Buurtplatform Gein//Agenda//NL',
-        'BEGIN:VEVENT',
-        `SUMMARY:${event.title}`,
-        `DTSTART:${formatICSDate(event.start)}`,
-        `DTEND:${formatICSDate(event.end)}`,
-        `LOCATION:${event.location}`,
-        `DESCRIPTION:${event.description}`,
-        'END:VEVENT',
-        'END:VCALENDAR'
-    ];
+        const fallback = Date.parse(event.date);
 
+        return Number.isNaN(fallback) ? Number.MAX_SAFE_INTEGER : fallback;
+    }, []);
 
-    return lines.join('\n');
-};
+    const sortedEvents = useMemo(() => {
+        return [...events].sort((a, b) => getTimestamp(a) - getTimestamp(b));
+    }, [events, getTimestamp]);
 
-const buildGoogleCalUrl = (event: AgendaEvent) => {
-    const base = 'https://calendar.google.com/calendar/render';
-    const params = new URLSearchParams({
-        action: 'TEMPLATE',
-        text: event.title,
-        details: event.description,
-        location: event.location,
-        dates: `${formatICSDate(event.start)}/${formatICSDate(event.end)}`
-    });
+    const visibleEvents = useMemo(() => {
+        const now = Date.now();
+        const upcoming = sortedEvents.filter((event) => getTimestamp(event) >= now);
 
-    return `${base}?${params.toString()}`;
-};
+        if (upcoming.length >= 6) {
+            return upcoming.slice(0, 6);
+        }
 
-const buildOutlookUrl = (event: AgendaEvent, host: string) => {
-    const params = new URLSearchParams({
-        path: '/calendar/action/compose',
-        rru: 'addevent',
-        startdt: event.start,
-        enddt: event.end,
-        subject: event.title,
-        body: event.description,
-        location: event.location
-    });
+        if (upcoming.length > 0) {
+            return upcoming;
+        }
 
-    return `${host}?${params.toString()}`;
-};
+        return sortedEvents.slice(0, 6);
+    }, [sortedEvents, getTimestamp]);
 
-const AgendaShowcase = ({ events }: { events: AgendaEvent[] }) => {
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
-    const [selectedCalendar, setSelectedCalendar] = useState('google');
-    const activeEvent = useMemo(() => (activeIndex === null ? null : events[activeIndex]), [activeIndex, events]);
+    const mobileSlides = useMemo(() => {
+        const slides: AgendaEvent[][] = [];
+        for (let i = 0; i < visibleEvents.length; i += 2) {
+            slides.push(visibleEvents.slice(i, i + 2));
+        }
+
+        return slides;
+    }, [visibleEvents]);
+
+    const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
+    const mobileSliderRef = useRef<HTMLDivElement | null>(null);
+
+    const scrollMobileSliderTo = useCallback(
+        (index: number) => {
+            const slider = mobileSliderRef.current;
+            if (!slider) {
+                return;
+            }
+            const clamped = Math.max(0, Math.min(index, mobileSlides.length - 1));
+            const targetSlide = slider.children[clamped] as HTMLElement | undefined;
+            if (!targetSlide) {
+                return;
+            }
+            slider.scrollTo({ left: targetSlide.offsetLeft, behavior: 'smooth' });
+        },
+        [mobileSlides.length]
+    );
 
     useEffect(() => {
-        setSelectedCalendar('google');
-    }, [activeEvent]);
-
-    const outlookLiveUrl = activeEvent ? buildOutlookUrl(activeEvent, 'https://outlook.live.com/calendar/0/deeplink/compose') : '';
-    const outlook365Url = activeEvent ? buildOutlookUrl(activeEvent, 'https://outlook.office.com/calendar/0/deeplink/compose') : '';
-
-    const handleCalendarAction = () => {
-        if (!activeEvent) return;
-
-        switch (selectedCalendar) {
-            case 'google':
-                window.open(buildGoogleCalUrl(activeEvent), '_blank');
-                break;
-            case 'ical': {
-                const icsContent = buildICalendarFile(activeEvent);
-                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `${activeEvent.title}.ics`;
-                link.click();
-                setTimeout(() => URL.revokeObjectURL(url), 500);
-                break;
-            }
-            case 'outlook365':
-                window.open(outlook365Url, '_blank');
-                break;
-            case 'outlooklive':
-                window.open(outlookLiveUrl, '_blank');
-                break;
-            default:
-                break;
+        const slider = mobileSliderRef.current;
+        if (!slider) {
+            return undefined;
         }
+
+        const handleScroll = () => {
+            const slides = Array.from(slider.children) as HTMLElement[];
+            if (!slides.length) {
+                setMobileSlideIndex(0);
+
+                return;
+            }
+
+            let closestIndex = 0;
+            let smallestDistance = Number.POSITIVE_INFINITY;
+
+            slides.forEach((slide, idx) => {
+                const distance = Math.abs(slider.scrollLeft - slide.offsetLeft);
+                if (distance < smallestDistance) {
+                    smallestDistance = distance;
+                    closestIndex = idx;
+                }
+            });
+
+            setMobileSlideIndex(closestIndex);
+        };
+
+        slider.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        return () => slider.removeEventListener('scroll', handleScroll);
+    }, [mobileSlides.length]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            scrollMobileSliderTo(mobileSlideIndex);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, [mobileSlideIndex, scrollMobileSliderTo]);
+
+    const renderCard = (event: AgendaEvent, size: 'desktop' | 'mobile') => {
+        const imageHeight = size === 'desktop' ? 'h-40' : 'h-32';
+        const titleClass = size === 'desktop' ? 'text-2xl' : 'text-xl';
+
+        return (
+            <article
+                className='rounded-2xl border border-white/20 p-5 text-white shadow-sm shadow-black/10 transition hover:-translate-y-0.5 hover:shadow-white/30'
+                style={{ backgroundColor: 'rgba(13, 94, 52, 0.65)' }}
+                onClick={() => onEventClick(event)}>
+                <div className={`relative mb-4 overflow-hidden rounded-xl border border-white/10 ${imageHeight}`}>
+                    <Image
+                        src={event.image}
+                        alt={event.title}
+                        fill
+                        sizes='(max-width: 768px) 100vw, 50vw'
+                        className='object-cover'
+                    />
+                </div>
+                <div className='text-xs font-semibold tracking-[0.3em] text-white/70 uppercase'>
+                    {event.date} • {event.time}
+                </div>
+                <h3 className={`mt-2 font-bold ${titleClass}`}>{event.title}</h3>
+                <p className='text-sm text-white/80'>{event.location}</p>
+                <button
+                    type='button'
+                    className='mt-4 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/10 px-4 py-2 text-xs font-semibold tracking-wide text-white uppercase'
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onEventClick(event);
+                    }}>
+                    <CalendarPlus className='size-4' /> {moreInfo}
+                </button>
+            </article>
+        );
     };
 
     return (
-        <div className='mt-8 grid gap-4 lg:grid-cols-2'>
-            {events.map((event, index) => (
-                <article
-                    key={event.title}
-                    className='rounded-2xl border border-white/20 p-5 text-white shadow-sm shadow-black/10 transition hover:-translate-y-0.5 hover:shadow-white/30'
-                    style={{ backgroundColor: 'rgba(13, 94, 52, 0.65)' }}
-                    onClick={() => setActiveIndex(index)}>
-                    <div className='text-xs font-semibold uppercase tracking-[0.3em] text-white/70'>
-                        {event.date} • {event.time}
-                    </div>
-                    <h3 className='mt-2 text-2xl font-bold'>{event.title}</h3>
-                    <p className='text-sm text-white/80'>{event.location}</p>
-                    <p className='mt-3 text-white/90'>{event.description}</p>
-                    <button
-                        type='button'
-                        className='mt-4 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white'
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveIndex(index);
-                        }}>
-                        <CalendarPlus className='size-4' /> Meer info
-                    </button>
-                </article>
-            ))}
-
-            {activeEvent && (
-                <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-8'>
-                    <div className='relative w-full max-w-3xl overflow-hidden rounded-3xl bg-white text-[#43160c] shadow-2xl'>
-                        <button
-                            type='button'
-                            onClick={() => setActiveIndex(null)}
-                            className='absolute right-4 top-4 z-20 rounded-full border border-[#d06129]/30 bg-white/80 p-1 text-[#d06129] backdrop-blur hover:bg-[#d06129]/10'>
-                            <X className='size-5' />
-                        </button>
-                        <div className='relative h-64 w-full overflow-hidden bg-[#43160c]/5 sm:h-80'>
-                            <Image src={activeEvent.image} alt={activeEvent.title} fill className='object-cover' sizes='(max-width: 768px) 100vw, 60vw' />
-                        </div>
-                        <div className='space-y-4 p-8'>
-                            <div className='text-xs font-semibold uppercase tracking-[0.3em] text-[#d06129]'>
-                                {activeEvent.date} • {activeEvent.time}
-                            </div>
-                            <h3 className='text-3xl font-black'>{activeEvent.title}</h3>
-                            <p className='text-sm font-semibold uppercase tracking-[0.2em] text-[#d06129]'>{activeEvent.location}</p>
-                            <p className='text-base text-[#43160c]/90'>{activeEvent.description}</p>
-                            <div className='mt-6 space-y-3'>
-                                <p className='text-xs font-semibold uppercase tracking-[0.3em] text-[#d06129]'>Voeg toe aan kalender</p>
-                                <div className='flex flex-wrap gap-3 text-sm font-semibold'>
-                                    <select
-                                        value={selectedCalendar}
-                                        onChange={(e) => setSelectedCalendar(e.target.value)}
-                                        className='rounded-full border border-[#d06129] bg-transparent px-4 py-2 text-[#d06129] focus:border-[#43160c] focus:outline-none'>
-                                        <option value='google'>Google Calendar</option>
-                                        <option value='ical'>iCal (.ics download)</option>
-                                        <option value='outlook365'>Outlook 365</option>
-                                        <option value='outlooklive'>Outlook Live</option>
-                                    </select>
-                                    <button
-                                        type='button'
-                                        onClick={handleCalendarAction}
-                                        className='rounded-full border border-[#d06129] px-4 py-2 text-[#d06129] transition hover:bg-[#d06129] hover:text-white'>
-                                        Open link
-                                    </button>
-                                </div>
+        <div className='mt-8 space-y-8'>
+            <div className='md:hidden'>
+                <div
+                    ref={mobileSliderRef}
+                    className='agenda-mobile-slider -mx-4 flex snap-x snap-mandatory overflow-x-auto px-4 pb-6 sm:-mx-6 sm:px-6'
+                    style={{ scrollbarWidth: 'none', scrollPadding: '0 1.5rem' }}>
+                    <style jsx>{`
+                        .agenda-mobile-slider {
+                            scroll-behavior: smooth;
+                        }
+                        .agenda-mobile-slider::-webkit-scrollbar {
+                            display: none;
+                        }
+                    `}</style>
+                    {mobileSlides.map((slide, index) => (
+                        <div key={`agenda-slide-${index}`} className='w-full flex-shrink-0 snap-center px-2'>
+                            <div className='grid gap-4'>
+                                {slide.map((event) => (
+                                    <div key={event.id} className='w-full'>
+                                        {renderCard(event, 'mobile')}
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
-            )}
+                {mobileSlides.length > 1 && (
+                    <div className='mt-3 flex items-center justify-center gap-2 px-4'>
+                        {mobileSlides.map((_, index) => (
+                            <button
+                                key={`agenda-dot-${index}`}
+                                type='button'
+                                onClick={() => scrollMobileSliderTo(index)}
+                                className={`h-2 rounded-full transition-all ${
+                                    mobileSlideIndex === index ? 'w-6 bg-[#33c17d]' : 'w-2 bg-white/40'
+                                }`}
+                                aria-label={`Ga naar agenda slide ${index + 1}`}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className='hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3'>
+                {visibleEvents.map((event) => (
+                    <div key={event.id}>{renderCard(event, 'desktop')}</div>
+                ))}
+            </div>
         </div>
     );
 };

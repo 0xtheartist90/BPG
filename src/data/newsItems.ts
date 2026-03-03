@@ -8,7 +8,25 @@ export type NewsItem = {
     image: string;
 };
 
+export type NewsTranslation = Pick<NewsItem, 'title' | 'excerpt' | 'content'>;
+
 export const newsItems: NewsItem[] = [
+    {
+        slug: 'muurschildering-metro-gein',
+        title: 'Muurschildering metro Gein',
+        excerpt:
+            'Bij metrostation Gein is een nieuwe muurschildering te zien – ruim 60 meter lang met planten en dieren uit de omgeving.',
+        date: '17 februari 2026',
+        image: '/images/news/Metroartikel.png',
+        content: [
+            'Bij metrostation Gein is een nieuwe muurschildering te zien. Hij is ruim 60 meter lang en toont planten en dieren uit de omgeving, zoals de ringslang. Kunstenaar Tim Rodermans maakte het kunstwerk.',
+            'Rodermans groeide op in Amsterdam en hield als kind al van graffiti en schilderen. "Ik had al een band met Zuidoost, maar heb tijdens het werk zoveel buurtbewoners leren kennen. Ik ben 3 maanden bezig geweest met de muurschildering. Ik genoot van Gein en hoe bewoners begaan zijn met elkaar."',
+            'Goudhaantje, torenvalk en veldmuis: "Planten en dieren zijn thema\'s die veel mensen leuk en mooi vinden. De ringslang komt hier veel voor, maar ook het goudhaantje, torenvalk, veldmuis en akkerkers. Ik wil in mijn kunst altijd het abstracte en realisme combineren. Dit zorgt voor een speels en spannend geheel."',
+            'Buurtbewoners zijn enthousiast. "Ik heb alleen positieve reacties gekregen, van jong en oud. Dat mensen er echt genieten en het mooi vinden. En het de buurt opleukt. Van een verloederd plekje naar een fijne frisse kleurrijke plek."',
+            'De muurschildering bij metrostation Gein hoort bij een groter plan in Zuidoost. Met Zuidoost Underground Art krijgen tunnels en onderdoorgangen verlichting, kleur en kunst. Kunstenaars uit de buurt werken samen met bewoners en andere partijen. Zo worden routes prettiger en veiliger voor mensen die lopen of fietsen.',
+            'Fotograaf: Kick Smeets'
+        ]
+    },
     {
         slug: 'levensloopbestendig-wooncomplex-gein',
         title: 'Levensloopbestendig wooncomplex in Gein?',
@@ -202,15 +220,18 @@ export const newsItems: NewsItem[] = [
         ]
     },
     {
-        slug: 'buurtbudget-toegekend-2024',
-        title: 'Buurtbudget 2024 toegekend',
-        excerpt: 'Gein kreeg opnieuw budget om bewonersideeën uit te voeren.',
-        date: '3 september 2024',
+        slug: 'buurtbudget-2026',
+        title: 'Buurtbudget 2026',
+        excerpt:
+            'Met €61.330,47 bouwen we verder aan community building, inclusiviteit en bewonersinitiatieven in Gein.',
+        date: '15 januari 2026',
         image: '/images/Infinite%20loop/bpgloop1.png',
         content: [
-            'In juli kregen we te horen dat Gein opnieuw buurtbudget ontvangt. Op 29 april verzamelden we ideeën met zo’n 40 bewoners: van vergroening tot jeugdactiviteiten.',
-            'De komende periode werken we deze plannen uit en koppelen we initiatiefnemers aan coaches of partners.',
-            'Heb jij nog een idee of wil je meehelpen bij uitvoering? Laat het weten via het contactformulier.'
+            'Buurtplatform Gein verbindt bewoners in een wijk met weinig ontmoetingsplekken en beperkte gemeentelijke investeringen. Via digitale kanalen én gesprekken in de buurt brengen we mensen bij elkaar en stimuleren we actief burgerschap.',
+            'In 2026 willen we de rol van De Ster en Buurthuis Gein verder uitbouwen tot plekken waar bewoners leren, ideeën delen en nieuwe initiatieven ontwikkelen – met speciale aandacht voor inclusiviteit en groepen die minder snel worden gehoord.',
+            'Het beschikbare budget van €61.330,47 investeren we in community building, ondersteuning bij thema’s zoals buitenruimte, cultuur, jeugd en ouderen, het activeren van bewoners en het versterken van inclusiviteit.',
+            'We bouwen voort op de basis uit 2023 en de verdieping in 2024–2025. Activiteiten als de Nieuwjaarsreceptie, flyercampagnes en online communicatie zorgen voor draagvlak en nieuwe initiatiefnemers, terwijl we met de “Kaasschaafmethode” samen bepalen waar efficiënter kan.',
+            'Bewoners worden aangemoedigd om Buurtbudget Gein via hun eigen kanalen te promoten en mee te denken over de verdeling, zodat we in 2026 een nog sterkere, verbonden en actieve wijk creëren: voor elkaar, met elkaar.'
         ]
     },
     {

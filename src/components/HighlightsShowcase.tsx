@@ -65,18 +65,20 @@ const HighlightsShowcase = ({ highlights, modalEyebrow, closeLabel }: Highlights
 
             {activeHighlight && (
                 <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-8'>
-                    <div className='relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-8 text-[#43160c] shadow-2xl'>
+                    <div className='relative w-full max-w-3xl rounded-3xl bg-white text-[#43160c] shadow-2xl'>
                         <button
                             type='button'
                             onClick={() => setActiveHighlight(null)}
-                            className='sticky top-0 z-10 mb-4 ml-auto flex h-10 w-10 items-center justify-center rounded-full border border-[#d06129]/30 bg-white text-2xl text-[#d06129] shadow-md hover:bg-[#d06129]/10 md:absolute md:top-4 md:right-4 md:mb-0'>
+                            className='absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-[#d06129]/30 bg-white text-2xl text-[#d06129] shadow-md hover:bg-[#d06129]/10'>
                             <span className='sr-only'>{closeLabel}</span>×
                         </button>
-                        <p className='text-xs font-semibold tracking-[0.3em] text-[#d06129] uppercase'>
-                            {modalEyebrow}
-                        </p>
-                        <h3 className='mt-2 text-3xl font-black text-[#43160c]'>{activeHighlight.title}</h3>
-                        <div className='mt-4 space-y-4'>{activeHighlight.content.map(renderContentBlock)}</div>
+                        <div className='max-h-[90vh] overflow-y-auto p-8 pt-16'>
+                            <p className='text-xs font-semibold tracking-[0.3em] text-[#d06129] uppercase'>
+                                {modalEyebrow}
+                            </p>
+                            <h3 className='mt-2 text-3xl font-black text-[#43160c]'>{activeHighlight.title}</h3>
+                            <div className='mt-4 space-y-4'>{activeHighlight.content.map(renderContentBlock)}</div>
+                        </div>
                     </div>
                 </div>
             )}

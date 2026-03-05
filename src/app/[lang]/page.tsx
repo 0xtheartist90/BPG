@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect, useRef, useState } from 'react';
+import { FormEvent, use, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import Image from 'next/image';
@@ -111,6 +111,8 @@ const Page = ({ params }: PageProps) => {
     const [selectedEvents, setSelectedEvents] = useState<AgendaEvent[]>([]);
     const [activeEventIndex, setActiveEventIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const observerRef = useRef<IntersectionObserver | null>(null);
     const lastActiveSection = useRef<string | null>(null);
     const langMenuRef = useRef<HTMLDivElement | null>(null);
@@ -273,7 +275,48 @@ const Page = ({ params }: PageProps) => {
     };
     const closeEventModal = () => {
         setIsModalOpen(false);
+        setSelectedEvents([]);
+        setActiveEventIndex(0);
     };
+
+    const handleContactSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        const formData = new FormData(e.currentTarget);
+        const data = {
+            name: formData.get('name') as string,
+            email: formData.get('email') as string,
+            message: formData.get('message') as string
+        };
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                setSubmitStatus('success');
+                e.currentTarget.reset();
+                setTimeout(() => setSubmitStatus('idle'), 5000);
+            } else {
+                setSubmitStatus('error');
+                setTimeout(() => setSubmitStatus('idle'), 5000);
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            setSubmitStatus('error');
+            setTimeout(() => setSubmitStatus('idle'), 5000);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     const formatLangLabel = (lang: Locale) => {
         const fullLabel = dict.nav.languages[lang];
         const [flag, ...rest] = fullLabel.split(' ');
@@ -1052,7 +1095,7 @@ const Page = ({ params }: PageProps) => {
                                     {dict.contact.formTitle}
                                 </h3>
                                 <p className='mt-3 text-sm text-white/85'>{dict.contact.formDescription}</p>
-                                <form className='mt-5 space-y-4'>
+                                <form className='mt-5 space-y-4' onSubmit={handleContactSubmit}>
                                     <div className='grid gap-4 sm:grid-cols-2'>
                                         <div>
                                             <label htmlFor='name' className='text-xs font-semibold text-white'>
@@ -1091,10 +1134,21 @@ const Page = ({ params }: PageProps) => {
                                             className='mt-2 w-full rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] placeholder:text-[#43160c]/60'
                                         />
                                     </div>
+                                    {submitStatus === 'success' && (
+                                        <div className='rounded-xl border border-[#33c17d] bg-[#33c17d]/20 px-4 py-3 text-sm text-white'>
+                                            ✓ Bericht succesvol verzonden!
+                                        </div>
+                                    )}
+                                    {submitStatus === 'error' && (
+                                        <div className='rounded-xl border border-red-400 bg-red-500/20 px-4 py-3 text-sm text-white'>
+                                            ✗ Er is iets misgegaan. Probeer het opnieuw.
+                                        </div>
+                                    )}
                                     <button
-                                        type='button'
-                                        className='w-full rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#d06129] shadow-md shadow-[#d06129]/30'>
-                                        {dict.contact.formButton}
+                                        type='submit'
+                                        disabled={isSubmitting}
+                                        className='w-full rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#d06129] shadow-md shadow-[#d06129]/30 transition-opacity disabled:cursor-not-allowed disabled:opacity-50'>
+                                        {isSubmitting ? 'Verzenden...' : dict.contact.formButton}
                                     </button>
                                 </form>
                             </div>

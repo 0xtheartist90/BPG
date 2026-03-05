@@ -285,9 +285,19 @@ const Page = ({ params }: PageProps) => {
         setSubmitStatus('idle');
 
         const formData = new FormData(e.currentTarget);
+        const subjectValue = formData.get('subject') as string;
+        const subjectOptions = dict.contact.fields.subjectOptions;
+        const subjectLabelMap: Record<string, string> = {
+            budget: subjectOptions.budget,
+            info: subjectOptions.info,
+            facilitair: subjectOptions.facilitair
+        };
+
         const data = {
             name: formData.get('name') as string,
             email: formData.get('email') as string,
+            subject: subjectValue,
+            subjectLabel: subjectLabelMap[subjectValue] ?? subjectOptions.info,
             message: formData.get('message') as string
         };
 
@@ -1121,6 +1131,25 @@ const Page = ({ params }: PageProps) => {
                                                 className='mt-2 w-full rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] placeholder:text-[#43160c]/60'
                                             />
                                         </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor='subject' className='text-xs font-semibold text-white'>
+                                            {dict.contact.fields.subjectLabel}
+                                        </label>
+                                        <select
+                                            id='subject'
+                                            name='subject'
+                                            defaultValue=''
+                                            className='mt-2 w-full appearance-none rounded-xl border border-white/30 bg-white/90 px-3 py-2.5 text-sm text-[#43160c] focus:ring-2 focus:ring-[#ff4d00]/50 focus:outline-none'>
+                                            <option value='' disabled>
+                                                {dict.contact.fields.subjectPlaceholder}
+                                            </option>
+                                            <option value='budget'>{dict.contact.fields.subjectOptions.budget}</option>
+                                            <option value='info'>{dict.contact.fields.subjectOptions.info}</option>
+                                            <option value='facilitair'>
+                                                {dict.contact.fields.subjectOptions.facilitair}
+                                            </option>
+                                        </select>
                                     </div>
                                     <div>
                                         <label htmlFor='message' className='text-xs font-semibold text-white'>

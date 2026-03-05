@@ -1,6 +1,7 @@
 interface ContactFormEmailProps {
     name: string;
     email: string;
+    subjectLabel: string;
     message: string;
 }
 
@@ -14,7 +15,7 @@ const escapeHtml = (value: string) =>
 
 const formatMultiline = (value: string) => escapeHtml(value).replace(/\n/g, '<br />');
 
-export const buildContactFormEmail = ({ name, email, message }: ContactFormEmailProps) => `<!DOCTYPE html>
+export const buildContactFormEmail = ({ name, email, subjectLabel, message }: ContactFormEmailProps) => `<!DOCTYPE html>
 <html lang="nl">
     <head>
         <meta charSet="utf-8" />
@@ -118,6 +119,10 @@ export const buildContactFormEmail = ({ name, email, message }: ContactFormEmail
                 <div class="field">
                     <div class="field-label">Naam</div>
                     <p class="field-value">${escapeHtml(name)}</p>
+                </div>
+                <div class="field">
+                    <div class="field-label">Onderwerp</div>
+                    <p class="field-value">${escapeHtml(subjectLabel)}</p>
                 </div>
                 <div class="field">
                     <div class="field-label">E-mailadres</div>

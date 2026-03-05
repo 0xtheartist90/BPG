@@ -9,10 +9,16 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-        const { name, email, message } = body;
+        const { name, email, subject, subjectLabel, message } = body as {
+            name?: string;
+            email?: string;
+            subject?: string;
+            subjectLabel?: string;
+            message?: string;
+        };
 
         // Validate required fields
-        if (!name || !email || !message) {
+        if (!name || !email || !message || !subject || !subjectLabel) {
             return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
         }
 
@@ -27,8 +33,8 @@ export async function POST(request: NextRequest) {
             from: 'Buurtplatform Gein <no-reply@buurtplatformgein.nl>',
             to: ['theartist@0xlaboratory.xyz'],
             replyTo: email,
-            subject: `Nieuw contactformulier bericht van ${name}`,
-            html: buildContactFormEmail({ name, email, message })
+            subject: `[${subjectLabel}] Nieuw contactformulier bericht van ${name}`,
+            html: buildContactFormEmail({ name, email, subjectLabel, message })
         });
 
         if (error) {

@@ -1218,9 +1218,13 @@ const Page = ({ params }: PageProps) => {
                                     <Phone className='size-5' />
                                 </a>
                             </div>
+                            <a
+                                href='mailto:bewonersplatformgein@gmail.com'
+                                className='block text-sm font-semibold text-[#43160c] underline decoration-[#ff4d00]/60 hover:decoration-[#ff4d00] md:text-right'>
+                                bewonersplatformgein@gmail.com
+                            </a>
                         </div>
                     </div>
-                    <div className='my-8 border-t border-[#43160c]/20' />
                     <div className='flex flex-col items-center text-center text-sm leading-tight text-[#43160c]/80 md:flex md:flex-row md:flex-wrap md:items-center md:justify-between md:text-left'>
                         <span className='block text-sm md:text-xs'>
                             {' '}
@@ -1229,11 +1233,16 @@ const Page = ({ params }: PageProps) => {
                         <span className='block text-xs md:ml-6 md:inline'>{dict.footer.legal.foundation}</span>
                         <span className='block text-xs md:ml-6 md:inline'>{dict.footer.legal.registration}</span>
                         <span className='block text-xs md:ml-6 md:inline'>{dict.footer.legal.status}</span>
-                        <a
-                            href='mailto:bewonersplatformgein@gmail.com'
-                            className='block text-xs underline md:ml-6 md:inline'>
-                            bewonersplatformgein@gmail.com
-                        </a>
+                        <span className='mt-3 block text-xs md:mt-0 md:ml-6 md:inline'>
+                            {dict.footer.credit.prefix}{' '}
+                            <a
+                                href='https://www.amplifybyaura.nl/'
+                                target='_blank'
+                                rel='noreferrer'
+                                className='underline'>
+                                {dict.footer.credit.linkLabel}
+                            </a>
+                        </span>
                     </div>
                 </div>
             </footer>

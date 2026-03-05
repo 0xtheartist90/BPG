@@ -590,6 +590,10 @@ type Dictionary = {
             registration: string;
             status: string;
         };
+        credit: {
+            prefix: string;
+            linkLabel: string;
+        };
     };
     ui: {
         modalEyebrow: string;
@@ -1103,6 +1107,10 @@ const nl: Dictionary = {
             foundation: 'Stichting Buurt en Bewoners Platform Gein',
             registration: 'KVK: 85747254 · RSIN: 863727876',
             status: 'ANBI-status erkend door de Belastingdienst'
+        },
+        credit: {
+            prefix: 'Website gemaakt door',
+            linkLabel: 'Amplify'
         }
     },
     ui: {
@@ -1283,85 +1291,240 @@ const en: Dictionary = {
                 content: [
                     {
                         type: 'subheading',
-                        text: 'Administrative Structure'
+                        text: 'Board'
                     },
                     {
                         type: 'paragraph',
-                        text: 'Chris Koning joined the board in January 2025, while we said goodbye to Elvira Dagrila in December, although she continues her voluntary involvement. During the year we also reviewed the coordination mechanism for the neighbourhood budget after the “Open Bon” system ended.'
-                    },
-                    {
-                        type: 'subheading',
-                        text: 'Location of Community Centre De Ster'
+                        text: "After a short introduction period at the end of 2024, we were pleased to appoint Chris Koning as a General Board Member of BPG as of 1 January 2025. Elvira d'Agrella was a General Board Member of BPG from 24 January 2024, but unfortunately had to step down from her Board duties on 1 December 2025. Fortunately, she remains very involved with BPG from the sidelines and will continue to carry out activities for us regularly."
                     },
                     {
                         type: 'paragraph',
-                        text: 'The future of De Ster remains uncertain and awaits a final decision. However, we have demonstrated its importance as a central meeting place for the neighbourhood of 11,545 residents. Demolition has been postponed until 2027, and we are working with mediators and partners to secure a sustainable long-term solution.'
+                        text: 'How to deal with the work for the Lead Coordination of the NEIGHBOURHOOD BUDGET continued to be a search for the right approach in 2025. The idea of appointing one separate (voluntary) coordinator proved in practice not to provide the right relief for the tasks of the Board Members, and therefore we decided to terminate the cooperation with the coordinator. Of course, we thank the coordinator for the commitment shown.'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'The sudden discontinuation by the Municipality of the "Open Poen" system (to be able to process the payments made in a transparent way for the neighbourhood) and despite that still being able to ensure that the various Projects were properly supervised where necessary, has put heavy organisational pressure on the BPG Board.'
                     },
                     {
                         type: 'subheading',
-                        text: 'Weekly Activities in De Ster'
+                        text: 'Location of BPG'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'At the time of writing this Annual Report 2025, there is still no clarity as to whether BPG can remain in the former primary school De Ster, Woudrichemstraat 8. The planned demolition of the building (which was originally scheduled for the end of December 2025) has now been postponed until mid-2027 because the adjacent school De Regenboog will temporarily move into the De Ster building during their upcoming renovation. In good consultation with our Area Broker, Robert Kathusing, we remain hopeful that together we can find a solution to continue our work in De Ster (or elsewhere).'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: "Given the large number of activities in 2025 in De Ster, we have now been able to clearly demonstrate that it is necessary and desirable that we can continue the mentioned activities – as a central Community Hub – and that for a large neighbourhood like Gein (with approximately 11,545 inhabitants) it is really necessary that there must be a central Community Hub, which can be used by Residents and Residents' Organisations for their activities! Buurthuis Gein is, as is known, too small and too limited in opening hours."
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'To illustrate, here is a list of the activities in 2025 in De Ster that were supported by BPG:'
                     },
                     {
                         type: 'list',
+                        heading: '2x per week',
                         items: [
-                            'Twice per week: art and culture workshops and the GLI movement program.',
-                            'Weekly: Operation Food Freedom, the knitting group, Shore No Mi, and dance groups (Indian, Curaçaoan and Nigerian).',
-                            'Every two weeks: Hindustani services, the children’s clothing swap, and yoga classes.',
-                            'Monthly: the AMMA women’s group, the book club, and the Repair Café.',
-                            'Ad-hoc activities included meetings of the Ghanaian community, electric vehicle workshops, neighbourhood meetings and consultations with police teams.'
+                            'The Art & Culture Group Gein with drawing and painting workshops and lectures.',
+                            'GLI – Combined Age Intervention Together Sporty in Motion (after referral by GP or specialist).'
+                        ]
+                    },
+                    {
+                        type: 'list',
+                        heading: '1x per week',
+                        items: [
+                            'Operation Food Freedom Southeast: Vegetable and fruit Distribution Point on a subscription basis.',
+                            'Handwork Group Gein for all types of handicrafts at every level.',
+                            'Shore No Mi Workshops for single mothers on a tight budget and victims of the Childcare Allowance.',
+                            'Dance Group Aashish Dance – Indian classical dance.',
+                            'Dance Group Gentiaan – Curaçaoan traditional dance.',
+                            'Dance Group Igbo – Nigerian cultural dance group Amsterdam.'
+                        ]
+                    },
+                    {
+                        type: 'list',
+                        heading: '1x per two weeks',
+                        items: ['Hindustani Mandir Church Services.', "Children's Clothing Swap.", 'Yoga classes.']
+                    },
+                    {
+                        type: 'list',
+                        heading: '1x per month',
+                        items: [
+                            "AMMA's Precious Ladies, Ghanaian Social Meeting Ladies Group.",
+                            'Reading Group – literary book discussions.',
+                            'REPAIR CAFÉ: give electrical appliances a second life by repairing them.'
+                        ]
+                    },
+                    {
+                        type: 'list',
+                        heading: 'Ad hoc activities',
+                        items: [
+                            "The Gein, Reigersbos & Holendrecht Ghanaian Community with residents' meetings and presentations.",
+                            'E-Car pilot meetings of partner Foundation De Groene Parasol with drivers/municipality/planning.',
+                            'Many BPG Board meetings with various stakeholders.',
+                            "Many individual meetings/gatherings of neighbourhood residents and VvE's (also from Reigersbos Buren)."
                         ]
                     },
                     {
                         type: 'subheading',
-                        text: 'Events Supported by the Neighbourhood Budget'
+                        text: 'Multifunctional use'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: "Parent and Child Team Gaasperdam organised Rock and Water training for vulnerable children, there were many children's birthday parties, various fairs and also the Police Gaasperdam likes to use the Community Hub for their own skills training."
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'With support from the V-fund and the National Committee 4 and 5 May (and various active neighbourhood residents) we also organised a well-attended Freedom Lunch in De Ster on 5 May 2025 with the themes 80 years of Freedom and 40 years of Gein.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Promotion and visible presence in Gein'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'We distributed over 5,000 flyers to motivate residents to come up with ideas and spent a lot of time guiding/facilitating/implementing various projects for the Neighbourhood Budget Gein in 2025.'
+                    },
+                    {
+                        type: 'list',
+                        heading: 'Promotional activities 2025',
+                        items: [
+                            '5-4-2025: BPG promotion fruit cart during Eid Mubarak at Wisseloord.',
+                            "26-4-2025: BPG promotion market stall at the King's Day festival in Gein3Dorp.",
+                            '31-5-2025: BPG promotion fruit cart during Health Market.',
+                            '19-7-2025: BPG promotion together with Neighbours Network "games" at Wisseloord.',
+                            '27-9-2025: BPG promotion market stall at the opening party of the Jan Schäeferplantsoen.',
+                            '20-12-2025: BPG promotion market stall Christmas Market at Shopping Centre Gein.'
+                        ]
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'We also contributed to various promotional videos from, among others, the Coalition of Neighbourhood Platforms.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Implementation/facilitation Neighbourhood Budget Gein 2025 in De Ster'
                     },
                     {
                         type: 'list',
                         items: [
-                            'Examples include the women’s pyjama party, pampering evenings and Hawai Bingo.',
-                            'Children and youth activities such as “Summer in De Ster”, the Keti Koti festival and the Elevate Yourself workshops were also supported.',
-                            'Cultural days included the Curaçaoan Gentian Day and light-art workshops.'
+                            "8-3-2025: International Women's Pyjama Party in De Ster.",
+                            "23-5-2025: Women's Pampering Evening in De Ster.",
+                            '7-6-2025: Hawaii Bingo in De Ster.',
+                            '27-6-2025: Children and youth activity "Summer in De Ster".',
+                            "30-6-2025: Children's Keti Koti festival for/by young people in De Ster.",
+                            '4-10-2025: Cultural Curaçaoan Day in De Ster by Dance Group Gentiaan.',
+                            '11-11-2025: Workshops making light artworks in De Ster and exhibition in Gein3Dorp.',
+                            '15-11-2025: Elevate Yourself workshops for Mothers in their Power in De Ster.'
                         ]
                     },
                     {
                         type: 'subheading',
-                        text: 'Events Outside De Ster'
+                        text: 'Events elsewhere in Gein from Neighbourhood Budget'
                     },
                     {
-                        type: 'paragraph',
-                        text: 'Activities organised in other neighbourhood locations included the neighbourhood iftar, Easter celebrations, King’s Day, Christmas markets, the 40-year anniversary celebrations of Gein and the Saint Martin children’s program. We also organised outreach activities such as fruit cart promotions and neighbourhood information stands.'
-                    },
-                    {
-                        type: 'subheading',
-                        text: 'Funding and Ongoing Projects'
-                    },
-                    {
-                        type: 'paragraph',
-                        text: 'Important projects included the development of the electric vehicle garage and rental system, the installation of the neighbourhood cabinet next to Partou, and art initiatives such as the Jan Schaefer monument.'
-                    },
-                    {
-                        type: 'paragraph',
-                        text: 'Continuing programs include the open studio, vegan cooking groups, women’s empowerment workshops and clothing swap initiatives.'
-                    },
-                    {
-                        type: 'paragraph',
-                        text: 'Challenges included the underuse of the sports container at Stoutenburgh Canal and concerns about green space maintenance, while improvements such as the new mural at Gein metro station were celebrated.'
+                        type: 'list',
+                        items: [
+                            "29-1-2025: BPG New Year's toast for Gein in Buurthuis Gein.",
+                            '27-3-2025: IFTAR meal in Buurthuis Gein.',
+                            '21-4-2025: Neighbourhood Easter party in the Wethouderbuurt.',
+                            "26-4-2025: King's Day in Gein3Dorp for Gein (also stall with BPG promotion).",
+                            '24-8-2025: Anniversary celebration at Shopping Centre Gein – 40 years of Gein / Great in Gein.',
+                            '28-9-2025: Neighbours Day Wethouder den Hertogstraat.',
+                            '28-9-2025: Neighbours Day Wethouder Driessenstraat.',
+                            '11-11-2025: St. Martin celebration traditionally at the Bee Garden Gein3Dorp.',
+                            '20-12-2025: Christmas Market at Shopping Centre Gein.',
+                            '22-12-2025: Christmas lunch in the Winter Garden of flat Wisseloord.'
+                        ]
                     },
                     {
                         type: 'subheading',
-                        text: 'Partnerships and Dialogue'
+                        text: '(Co)financing from the Neighbourhood Budget Gein'
                     },
                     {
-                        type: 'paragraph',
-                        text: 'The neighbourhood partner meeting now connects around 30 organisations and offers weekly opportunities for residents to meet local partners. We also participated in the Zuid-Oost neighbourhood platform alliance and the civic platforms coalition through monthly meetings and bi-weekly coordination sessions.'
+                        type: 'list',
+                        items: [
+                            '14-4-2025: The renovation of the garage and the lease of the E-Car Gaasperdam.',
+                            '19-6-2025: Construction and placement of the Neighbourhood Cabinet next to Partou at Wisseloord.',
+                            '30-12-2025: Youth project Wellvest.',
+                            '(Co-financing) Jan Schaefer monument.',
+                            '(Co-financing) AI in Healthcare.'
+                        ]
                     },
                     {
                         type: 'subheading',
-                        text: 'Looking Ahead to 2026'
+                        text: 'Ongoing activities from the Neighbourhood Budget'
+                    },
+                    {
+                        type: 'list',
+                        items: [
+                            'Open Studio Art & Culture Group in De Ster.',
+                            'Game mornings in Buurthuis Gein.',
+                            'Veggie Pastry (including cooking group) in Buurthuis Gein.',
+                            'Power Women workshops in Buurthuis Gein.',
+                            "Children's Clothing Swap in De Ster.",
+                            'Workshops Synesthete Light Images Saint Martin.'
+                        ]
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Sports container along the Stoutenburgergracht'
                     },
                     {
                         type: 'paragraph',
-                        text: 'In 2026 we will continue tackling illegal waste dumping, relaunch the waste management dialogue in Gaasperdam and work to keep the neighbourhood safe, connected and active. To receive the full report including financial details and partners, residents can contact us via the website form or by email.'
+                        text: 'The sports container that was placed on 19 October 2023 along the Stoutenburgergracht was used too little in 2025. The surface is not easily accessible due to the persistent bad weather and has dangerous holes (from moles). This will also remain a point of attention in 2026. Together with the Area Broker, we are investigating whether the sports container can be placed in a different location.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Deferred maintenance & living environment'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'The BPG Board has contributed to an inventory of deferred maintenance in Gein.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Improvements in 2025'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'We are beginning to see some improvements in 2025. The ugly yellow panels and the side wall of the Gein Metro Station (exit side Wisseloord) are now decorated with beautiful paintings designed by Artist Tim Rodermans. See video thanks to Zuidoosttv: https://www.facebook.com/share/v/1Mjd9NMaLD/.'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'A start has also been made with the redesign of the public space around the shopping centre. The implementation of the other bottlenecks in Gein certainly still requires great attention in 2026. The ongoing fight against litter in the neighbourhood and the Gaasperdam-wide Consultation with Waste and Resources Employees that we initiated has unfortunately come to a standstill again due to a change of Civil Servants and needs to be restarted.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Neighbourhood partner meeting'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'The Neighbourhood Partner Meeting (also called Stakeholders Meeting Gein) now takes place structurally and is well attended. The lines between the various Stakeholders among themselves and towards residents are getting shorter and we are beginning to find each other better and better. Through the continuous contact between residents and BPG among themselves and the mentioned Neighbourhood Partner Meeting, the signals and concerns of residents can be brought together. This meeting has therefore grown considerably in 2025 and now brings together 30 residents, organisations and institutions. It has also led to the Professionals in the neighbourhood offering residents a low-threshold opportunity to talk to them every Wednesday morning. We are quite proud of this initiative that we, together with our Area Broker, have started.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Meetings of the Coalition of Neighbourhood Platforms'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: "BPG was present 10 times in 2025 at the rotating monthly Coordinators Meetings of the Coalition of Neighbourhood Platforms ZO. During these peer-to-peer meetings we discuss bottlenecks and successes of the Neighbourhood Platforms and how we can join forces so that we don't all have to reinvent the same wheel. On 14 July 2025 we were the host location in De Ster for this Coordinators Meeting. In December 2025 we said goodbye to our democratisation civil servant, Camilla Meijer. It's a pity that Camilla was placed in another position after only 1 year. Partly thanks to her, we have been able to take some steps in the long democratisation journey and we wish her success with the next job. We look forward to working with the next civil servant in line."
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'City-wide coalition'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'The meetings of the City-wide Coalition of Neighbourhood Platforms Amsterdam take place monthly (also via rotating chairmanship) where Sjoukje Alta joins once every 2 months. BPG was present 4 times. BPG was also present 8 times at the bi-weekly online check-in with supporters and city-wide civil servants.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'Conclusion'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'This summary of activities was recorded on 17 February 2026 by Gery Kraaijkamp, Chairman of Foundation Neighbourhood and Residents Platform Gein. Foundation Neighbourhood and Residents Platform Gein – Chamber of Commerce number 85747254 – 21-2-2026 – bewonersplatformgein@gmail.com.'
                     }
                 ]
             }
@@ -1461,6 +1624,10 @@ const en: Dictionary = {
             foundation: 'Foundation Neighborhood & Residents Platform Gein',
             registration: 'Chamber of Commerce: 85747254 · RSIN: 863727876',
             status: 'ANBI charity status recognized by the tax authorities'
+        },
+        credit: {
+            prefix: 'Website by',
+            linkLabel: 'Amplify'
         }
     },
     ui: {
@@ -1631,85 +1798,240 @@ const ar: Dictionary = {
                 content: [
                     {
                         type: 'subheading',
-                        text: 'الهيكل الإداري'
+                        text: 'مجلس الإدارة'
                     },
                     {
                         type: 'paragraph',
-                        text: 'انضم كريس كونينغ إلى مجلس الإدارة في يناير 2025، بينما ودّعنا إلفيرا داغريلا في ديسمبر، مع استمرارها في دعم المنظمة بشكل تطوعي. كما قمنا خلال العام بمراجعة آلية تنسيق ميزانية الحي بعد توقف نظام «أوبن بون». '
-                    },
-                    {
-                        type: 'subheading',
-                        text: 'موقع مركز المجتمع دي ستر'
+                        text: 'بعد فترة تعارف قصيرة في نهاية عام 2024، سررنا بتعيين كريس كونينغ كعضو عام في مجلس إدارة BPG اعتبارًا من 1 يناير 2025. كانت إلفيرا داغريلا عضوًا عامًا في مجلس الإدارة منذ 24 يناير 2024، لكنها اضطرت للأسف للتنحي عن مهامها في المجلس في 1 ديسمبر 2025. لحسن الحظ، لا تزال متابعة للمنظمة عن كثب وستواصل تنفيذ أنشطة لنا بانتظام.'
                     },
                     {
                         type: 'paragraph',
-                        text: 'لا يزال مستقبل مركز دي ستر غير محسوم وينتظر قرارًا نهائيًا. ومع ذلك فقد أثبتنا أهميته كمركز اجتماعي رئيسي لحي يضم 11,545 ساكنًا. تم تأجيل الهدم حتى عام 2027، ونعمل مع الوسطاء والشركاء لإيجاد حل دائم ومستدام.'
+                        text: 'استمر البحث عن الطريقة الصحيحة للتعامل مع مهام التنسيق الرئيسي لميزانية الحي في عام 2025. ثبت عمليًا أن فكرة تعيين منسق منفصل (تطوعي) لم توفر الراحة المناسبة لمهام أعضاء المجلس، ولذلك قررنا إنهاء التعاون مع المنسق. بالطبع، نشكر المنسق على الالتزام المبذول.'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'أدى التوقف المفاجئ من قبل البلدية لنظام "أوبن بون" (لمعالجة المدفوعات بطريقة شفافة للحي) ورغم ذلك القدرة على ضمان الإشراف الجيد على المشاريع المختلفة عند الضرورة، إلى ضغط تنظيمي كبير على مجلس إدارة BPG.'
                     },
                     {
                         type: 'subheading',
-                        text: 'الأنشطة الأسبوعية في دي ستر'
+                        text: 'موقع BPG'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'في وقت كتابة هذا التقرير السنوي 2025، لا يزال هناك عدم وضوح حول ما إذا كان بإمكان BPG البقاء في المدرسة الابتدائية السابقة دي ستر، Woudrichemstraat 8. تم تأجيل الهدم المخطط للمبنى (الذي كان مقررًا في الأصل لنهاية ديسمبر 2025) الآن حتى منتصف عام 2027 لأن مدرسة De Regenboog المجاورة ستنتقل مؤقتًا إلى مبنى دي ستر خلال تجديدها القادم. في تشاور جيد مع وسيط المنطقة لدينا، روبرت كاثوسينغ، نظل متفائلين بأننا معًا يمكننا إيجاد حل لمواصلة عملنا في دي ستر (أو في مكان آخر).'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'نظرًا للعدد الكبير من الأنشطة في عام 2025 في دي ستر، تمكنا الآن من إثبات بوضوح أنه من الضروري والمرغوب فيه أن نتمكن من مواصلة الأنشطة المذكورة - كمركز مجتمعي مركزي - وأنه بالنسبة لحي كبير مثل خيـن (بحوالي 11,545 ساكنًا) من الضروري حقًا أن يكون هناك مركز مجتمعي مركزي، يمكن للسكان ومنظمات السكان استخدامه لأنشطتهم! Buurthuis Gein، كما هو معروف، صغير جدًا ومحدود جدًا في ساعات العمل.'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'للتوضيح، إليك قائمة بالأنشطة في عام 2025 في دي ستر التي دعمتها BPG:'
                     },
                     {
                         type: 'list',
+                        heading: 'مرتان في الأسبوع',
                         items: [
-                            'مرتان أسبوعيًا: ورش الفن والثقافة وبرنامج الحركة GLI.',
-                            'أسبوعيًا: Operation Food Freedom، مجموعة الحياكة، Shore No Mi، ومجموعات الرقص (الهندية والكوراساوية والنيجيرية).',
-                            'كل أسبوعين: الخدمات الهندوستانية، سوق تبادل ملابس الأطفال، ودروس اليوغا.',
-                            'شهريًا: مجموعة السيدات AMMA، نادي القراءة، ومقهى الإصلاح.',
-                            'كما نُظمت أنشطة إضافية مثل لقاءات المجتمع الغاني، ورش السيارات الكهربائية، اجتماعات الجيران واجتماعات مع فرق الشرطة.'
+                            'مجموعة الفن والثقافة خيـن مع ورش الرسم والتلوين والمحاضرات.',
+                            'GLI - التدخل المشترك للأعمار معًا رياضيًا في الحركة (بعد الإحالة من الطبيب العام أو الأخصائي).'
+                        ]
+                    },
+                    {
+                        type: 'list',
+                        heading: 'مرة في الأسبوع',
+                        items: [
+                            'Operation Food Freedom جنوب شرق: نقطة توزيع الخضار والفواكه على أساس الاشتراك.',
+                            'مجموعة الأعمال اليدوية خيـن لجميع أنواع الحرف اليدوية على كل المستويات.',
+                            'ورش Shore No Mi للأمهات العازبات ذوات الميزانية المحدودة وضحايا بدل رعاية الأطفال.',
+                            'مجموعة الرقص Aashish Dance - الرقص الكلاسيكي الهندي.',
+                            'مجموعة الرقص Gentiaan - الرقص التقليدي الكوراساوي.',
+                            'مجموعة الرقص Igbo - مجموعة الرقص الثقافي النيجيري أمستردام.'
+                        ]
+                    },
+                    {
+                        type: 'list',
+                        heading: 'مرة كل أسبوعين',
+                        items: ['خدمات كنيسة Mandir الهندوستانية.', 'سوق تبادل ملابس الأطفال.', 'دروس اليوغا.']
+                    },
+                    {
+                        type: 'list',
+                        heading: 'مرة في الشهر',
+                        items: [
+                            "AMMA's Precious Ladies، مجموعة اللقاء الاجتماعي الغانية للسيدات.",
+                            'مجموعة القراءة - مناقشات الكتب الأدبية.',
+                            'مقهى الإصلاح: امنح الأجهزة الكهربائية حياة ثانية من خلال إصلاحها.'
+                        ]
+                    },
+                    {
+                        type: 'list',
+                        heading: 'أنشطة مخصصة',
+                        items: [
+                            'مجتمع خيـن وReigersbos وHolendrecht الغاني مع اجتماعات السكان والعروض التقديمية.',
+                            'اجتماعات تجريبية للسيارة الكهربائية مع شريك مؤسسة De Groene Parasol مع السائقين/البلدية/التخطيط.',
+                            'العديد من اجتماعات مجلس إدارة BPG مع مختلف أصحاب المصلحة.',
+                            'العديد من الاجتماعات/التجمعات الفردية لسكان الحي وجمعيات الملاك (أيضًا من Reigersbos Buren).'
                         ]
                     },
                     {
                         type: 'subheading',
-                        text: 'الفعاليات المدعومة من ميزانية الحي'
+                        text: 'الاستخدام متعدد الوظائف'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'نظم فريق الآباء والأطفال Gaasperdam تدريب Rock and Water للأطفال الضعفاء، وكانت هناك العديد من حفلات أعياد ميلاد الأطفال، ومعارض مختلفة، كما تحب شرطة Gaasperdam استخدام مركز المجتمع لتدريبها على المهارات الخاصة.'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'بدعم من صندوق V واللجنة الوطنية 4 و5 مايو (ومختلف سكان الحي النشطين) نظمنا أيضًا غداء الحرية الذي حضره الكثيرون في دي ستر في 5 مايو 2025 بموضوعات 80 عامًا من الحرية و40 عامًا من خيـن.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'الترويج والحضور المرئي في خيـن'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'وزعنا أكثر من 5000 منشور لتحفيز السكان على طرح الأفكار وقضينا الكثير من الوقت في توجيه/تسهيل/تنفيذ مشاريع مختلفة لميزانية حي خيـن في عام 2025.'
+                    },
+                    {
+                        type: 'list',
+                        heading: 'أنشطة ترويجية 2025',
+                        items: [
+                            '5-4-2025: عربة فواكه ترويجية لـ BPG خلال عيد الفطر المبارك في Wisseloord.',
+                            '26-4-2025: كشك سوق ترويجي لـ BPG في مهرجان يوم الملك في Gein3Dorp.',
+                            '31-5-2025: عربة فواكه ترويجية لـ BPG خلال سوق الصحة.',
+                            '19-7-2025: ترويج BPG مع شبكة الجيران "الألعاب" في Wisseloord.',
+                            '27-9-2025: كشك سوق ترويجي لـ BPG في حفل افتتاح Jan Schäeferplantsoen.',
+                            '20-12-2025: كشك سوق ترويجي لـ BPG في سوق عيد الميلاد في مركز التسوق خيـن.'
+                        ]
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'ساهمنا أيضًا في مقاطع فيديو ترويجية مختلفة من، من بين آخرين، تحالف منصات الأحياء.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'التنفيذ/التسهيل لميزانية حي خيـن 2025 في دي ستر'
                     },
                     {
                         type: 'list',
                         items: [
-                            'شملت الفعاليات حفلة البيجاما للسيدات، أمسيات التدليل وفعالية Hawai Bingo.',
-                            'كما تم دعم فعاليات الأطفال والشباب مثل «صيف في دي ستر»، مهرجان كيتي كوتي وورش Elevate Yourself.',
-                            'وشملت الأيام الثقافية يوم جنتيان الكوراساوي وورش الفنون الضوئية.'
+                            '8-3-2025: حفلة البيجاما الدولية للنساء في دي ستر.',
+                            '23-5-2025: أمسية التدليل للنساء في دي ستر.',
+                            '7-6-2025: Hawaii Bingo في دي ستر.',
+                            '27-6-2025: نشاط الأطفال والشباب "صيف في دي ستر".',
+                            '30-6-2025: مهرجان Keti Koti للأطفال من قبل/للشباب في دي ستر.',
+                            '4-10-2025: اليوم الثقافي الكوراساوي في دي ستر من قبل مجموعة الرقص Gentiaan.',
+                            '11-11-2025: ورش صنع الأعمال الفنية الضوئية في دي ستر ومعرض في Gein3Dorp.',
+                            '15-11-2025: ورش Elevate Yourself للأمهات في قوتهن في دي ستر.'
                         ]
                     },
                     {
                         type: 'subheading',
-                        text: 'فعاليات خارج دي ستر'
+                        text: 'فعاليات في أماكن أخرى في خيـن من ميزانية الحي'
                     },
                     {
-                        type: 'paragraph',
-                        text: 'نُظمت فعاليات في مواقع أخرى في الحي مثل إفطار الحي، احتفالات عيد الفصح، يوم الملك، أسواق عيد الميلاد، احتفالات الذكرى الأربعين لحي خيـن وبرنامج عيد القديس مارتن للأطفال. كما قمنا بأنشطة ترويجية في الحي باستخدام عربات الفاكهة وأكشاك المعلومات.'
-                    },
-                    {
-                        type: 'subheading',
-                        text: 'التمويل والمشاريع الجارية'
-                    },
-                    {
-                        type: 'paragraph',
-                        text: 'شملت المشاريع المهمة تطوير مرآب السيارات الكهربائية ونظام تأجيرها، تركيب خزانة الحي بجوار Partou، ومبادرات فنية مثل نصب يان شافِر.'
-                    },
-                    {
-                        type: 'paragraph',
-                        text: 'وتستمر برامج مثل الاستوديو المفتوح، مجموعات الطبخ النباتي، ورش تمكين السيدات ومبادرات تبادل الملابس.'
-                    },
-                    {
-                        type: 'paragraph',
-                        text: 'ومن التحديات التي واجهناها ضعف استخدام حاوية الرياضة في قناة ستاوتنبورخر وملاحظات حول صيانة المساحات الخضراء، بينما احتفلنا بتحسينات مثل الجدارية الجديدة في محطة مترو خيـن.'
+                        type: 'list',
+                        items: [
+                            '29-1-2025: نخب رأس السنة الجديدة لـ BPG لخيـن في Buurthuis Gein.',
+                            '27-3-2025: وجبة إفطار في Buurthuis Gein.',
+                            '21-4-2025: حفلة عيد الفصح في الحي في Wethouderbuurt.',
+                            '26-4-2025: يوم الملك في Gein3Dorp لخيـن (أيضًا كشك مع ترويج BPG).',
+                            '24-8-2025: احتفال الذكرى السنوية في مركز التسوق خيـن - 40 عامًا من خيـن / رائع في خيـن.',
+                            '28-9-2025: يوم الجيران Wethouder den Hertogstraat.',
+                            '28-9-2025: يوم الجيران Wethouder Driessenstraat.',
+                            '11-11-2025: احتفال القديس مارتن تقليديًا في حديقة النحل Gein3Dorp.',
+                            '20-12-2025: سوق عيد الميلاد في مركز التسوق خيـن.',
+                            '22-12-2025: غداء عيد الميلاد في الحديقة الشتوية لشقة Wisseloord.'
+                        ]
                     },
                     {
                         type: 'subheading',
-                        text: 'الشراكات والحوار'
+                        text: '(التمويل المشترك) من ميزانية حي خيـن'
                     },
                     {
-                        type: 'paragraph',
-                        text: 'يجمع اجتماع شركاء الحي الآن نحو 30 منظمة ويوفر فرصًا أسبوعية للقاء السكان مع الشركاء المحليين. كما شاركنا في تحالف منصات أحياء زويد-أوست وتحالف المنصات المدنية من خلال اجتماعات شهرية وجلسات تنسيق نصف شهرية.'
+                        type: 'list',
+                        items: [
+                            '14-4-2025: تجديد المرآب وتأجير السيارة الكهربائية Gaasperdam.',
+                            '19-6-2025: بناء ووضع خزانة الحي بجوار Partou في Wisseloord.',
+                            '30-12-2025: مشروع الشباب Wellvest.',
+                            '(التمويل المشترك) نصب يان شيفر.',
+                            '(التمويل المشترك) الذكاء الاصطناعي في الرعاية الصحية.'
+                        ]
                     },
                     {
                         type: 'subheading',
-                        text: 'النظرة إلى عام 2026'
+                        text: 'الأنشطة المستمرة من ميزانية الحي'
+                    },
+                    {
+                        type: 'list',
+                        items: [
+                            'الاستوديو المفتوح لمجموعة الفن والثقافة في دي ستر.',
+                            'صباحات الألعاب في Buurthuis Gein.',
+                            'Veggie Pastry (بما في ذلك مجموعة الطبخ) في Buurthuis Gein.',
+                            'ورش النساء القويات في Buurthuis Gein.',
+                            'سوق تبادل ملابس الأطفال في دي ستر.',
+                            'ورش صور الضوء Synesthete القديس مارتن.'
+                        ]
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'حاوية الرياضة على طول Stoutenburgergracht'
                     },
                     {
                         type: 'paragraph',
-                        text: 'في عام 2026 سنواصل مكافحة رمي النفايات بشكل غير قانوني، وإعادة إطلاق الحوار حول إدارة النفايات في غاسبردام، والعمل على إبقاء الحي آمنًا ومترابطًا ونشطًا. للحصول على التقرير الكامل مع التفاصيل المالية والشركاء يمكن للسكان التواصل معنا عبر نموذج الموقع أو البريد الإلكتروني.'
+                        text: 'حاوية الرياضة التي تم وضعها في 19 أكتوبر 2023 على طول Stoutenburgergracht لم تُستخدم بشكل كافٍ في عام 2025. السطح غير قابل للوصول بسهولة بسبب الطقس السيئ المستمر وبه ثقوب خطيرة (من الشامات). سيظل هذا أيضًا نقطة اهتمام في عام 2026. نحن نحقق مع وسيط المنطقة فيما إذا كان يمكن وضع حاوية الرياضة في موقع مختلف.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'الصيانة المؤجلة وبيئة المعيشة'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'ساهم مجلس إدارة BPG في جرد الصيانة المؤجلة في خيـن.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'التحسينات في عام 2025'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'بدأنا نرى بعض التحسينات في عام 2025. الألواح الصفراء القبيحة والجدار الجانبي لمحطة مترو خيـن (جانب الخروج Wisseloord) مزينة الآن بلوحات جميلة صممها الفنان تيم رودرمانز. شاهد الفيديو بفضل Zuidoosttv: https://www.facebook.com/share/v/1Mjd9NMaLD/.'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'تم أيضًا البدء في إعادة تصميم المساحة العامة حول مركز التسوق. لا يزال تنفيذ الاختناقات الأخرى في خيـن يتطلب بالتأكيد اهتمامًا كبيرًا في عام 2026. لسوء الحظ، توقفت المعركة المستمرة ضد القمامة في الحي والمشاورة على نطاق Gaasperdam مع موظفي النفايات والموارد التي بدأناها مرة أخرى بسبب تغيير الموظفين المدنيين ويجب إعادة تشغيلها.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'اجتماع شركاء الحي'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'يُعقد اجتماع شركاء الحي (يُسمى أيضًا اجتماع أصحاب المصلحة خيـن) الآن بشكل منظم ويحضره الكثيرون. الخطوط بين مختلف أصحاب المصلحة فيما بينهم وتجاه السكان تصبح أقصر ونبدأ في إيجاد بعضنا البعض بشكل أفضل وأفضل. من خلال الاتصال المستمر بين السكان وBPG فيما بينهم واجتماع شركاء الحي المذكور، يمكن جمع إشارات ومخاوف السكان. لذلك نما هذا الاجتماع بشكل كبير في عام 2025 ويجمع الآن 30 ساكنًا ومنظمة ومؤسسة. كما أدى إلى قيام المهنيين في الحي بتقديم فرصة منخفضة العتبة للسكان للتحدث معهم كل صباح أربعاء. نحن فخورون جدًا بهذه المبادرة التي بدأناها، مع وسيط المنطقة لدينا.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'اجتماعات تحالف منصات الأحياء'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'حضرت BPG 10 مرات في عام 2025 في اجتماعات المنسقين الشهرية المتناوبة لتحالف منصات الأحياء ZO. خلال هذه الاجتماعات من نظير إلى نظير نناقش الاختناقات ونجاحات منصات الأحياء وكيف يمكننا توحيد القوى حتى لا نضطر جميعًا إلى إعادة اختراع نفس العجلة. في 14 يوليو 2025 كنا الموقع المضيف في دي ستر لاجتماع المنسقين هذا. في ديسمبر 2025 ودعنا موظفنا المدني للديمقراطية، كاميلا مايجر. من المؤسف أن كاميلا تم وضعها في منصب آخر بعد عام واحد فقط. بفضلها جزئيًا، تمكنا من اتخاذ بعض الخطوات في رحلة الديمقراطية الطويلة ونتمنى لها النجاح في الوظيفة التالية. نتطلع إلى العمل مع الموظف المدني التالي في الصف.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'التحالف على مستوى المدينة'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'تُعقد اجتماعات التحالف على مستوى المدينة لمنصات الأحياء أمستردام شهريًا (أيضًا عبر الرئاسة المتناوبة) حيث تنضم Sjoukje Alta مرة كل شهرين. حضرت BPG 4 مرات. كانت BPG أيضًا حاضرة 8 مرات في الفحص عبر الإنترنت كل أسبوعين مع الداعمين والموظفين المدنيين.'
+                    },
+                    {
+                        type: 'subheading',
+                        text: 'الخاتمة'
+                    },
+                    {
+                        type: 'paragraph',
+                        text: 'تم تسجيل هذا الملخص للأنشطة في 17 فبراير 2026 من قبل جيري كرايكامب، رئيس مؤسسة منصة الحي والسكان خيـن. مؤسسة منصة الحي والسكان خيـن – رقم غرفة التجارة 85747254 – 21-2-2026 – bewonersplatformgein@gmail.com.'
                     }
                 ]
             }
@@ -1807,8 +2129,12 @@ const ar: Dictionary = {
         highlight: 'معًا نحافظ على الحي دافئًا وآمنًا ومستقبلًا.',
         legal: {
             foundation: 'مؤسسة منصة الحي والسكان خيـن',
-            registration: 'رقم الغرفة التجارية: 85747254 · RSIN: 863727876',
+            registration: 'رقم غرفة التجارة 85747254',
             status: 'منظمة خيرية ANBI معترف بها من مصلحة الضرائب'
+        },
+        credit: {
+            prefix: 'الموقع من تصميم',
+            linkLabel: 'Amplify'
         }
     },
     ui: {

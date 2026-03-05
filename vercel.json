@@ -1,0 +1,6 @@
+{
+    "git": {
+        "productionBranch": "main"
+    },
+    "ignoreCommand": "if echo \"$VERCEL_GIT_COMMIT_REF\" | grep -qi '^dependabot/'; then echo 'Skipping deploy for dependabot branch'; exit 0; else exit 1; fi"
+}

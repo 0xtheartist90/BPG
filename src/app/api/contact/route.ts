@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ContactFormEmail } from '@/emails/ContactFormEmail';
+import { buildContactFormEmail } from '@/emails/ContactFormEmail';
 
-import { renderToStaticMarkup } from 'react-dom/server';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -23,26 +22,25 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
         }
 
-        // Render email template to HTML
-        const emailHtml = renderToStaticMarkup(ContactFormEmail({ name, email, message }));
-
         // Send email using Resend
         const { data, error } = await resend.emails.send({
             from: 'Buurtplatform Gein <no-reply@buurtplatformgein.nl>',
             to: ['theartist@0xlaboratory.xyz'],
             replyTo: email,
             subject: `Nieuw contactformulier bericht van ${name}`,
-            html: emailHtml
+            html: buildContactFormEmail({ name, email, message })
         });
 
         if (error) {
             console.error('Resend error:', error);
+
             return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
         }
 
         return NextResponse.json({ success: true, messageId: data?.id }, { status: 200 });
     } catch (error) {
         console.error('Contact form error:', error);
+
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 }

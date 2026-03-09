@@ -107,7 +107,7 @@ const AgendaMonthView = ({ events, onDayClick, monthDays, previousMonth, nextMon
 
     return (
         <div className='rounded-3xl border border-[#f3d9ba] bg-white/90 p-6 text-[#43160c] shadow-inner shadow-[#f3d9ba]/30'>
-            <div className='flex items-center justify-between text-sm font-semibold text-[#5c1d0c]'>
+            <div className='mb-6 flex flex-wrap items-center justify-between gap-3 text-sm font-semibold text-[#5c1d0c]'>
                 <button
                     type='button'
                     onClick={() => handleChangeMonth(-1)}

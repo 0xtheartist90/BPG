@@ -6,15 +6,10 @@ import type { AgendaEvent } from '@/types/agenda';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const formatDateKey = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+const amsterdamDateFormat = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Amsterdam' });
+const formatDateKey = (date: Date) => amsterdamDateFormat.format(date);
 
-    return `${year}-${month}-${day}`;
-};
-
-const getEventDateKey = (event: AgendaEvent) => (event.start ? event.start.slice(0, 10) : null);
+const getEventDateKey = (event: AgendaEvent) => (event.start ? formatDateKey(new Date(event.start)) : null);
 
 type AgendaMonthViewProps = {
     events: AgendaEvent[];

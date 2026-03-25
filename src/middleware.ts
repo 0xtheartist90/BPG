@@ -6,8 +6,42 @@ import { defaultLocale, locales } from './lib/i18n';
 const PUBLIC_FILE = /\.(?:.*)$/;
 const localeSet = new Set(locales);
 
-export function middleware(request: NextRequest) {
+// Simple hash for Edge Runtime (no Node.js crypto needed)
+// Token validation: compare token against a hash we compute using Web Crypto
+let cachedToken: string | null = null;
+
+async function getExpectedToken(): Promise<string> {
+    if (cachedToken) return cachedToken;
+    const password = process.env.ADMIN_PASSWORD;
+    if (!password) return '';
+    const secret = password + '__bpg_session_salt';
+    const data = new TextEncoder().encode(secret);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    cachedToken = Array.from(new Uint8Array(hash))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+
+    return cachedToken;
+}
+
+export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
+
+    // Admin routes first — before PUBLIC_FILE check to prevent bypass
+    if (pathname.startsWith('/admin')) {
+        if (pathname === '/admin/login') {
+            return NextResponse.next();
+        }
+        const token = request.cookies.get('admin-session')?.value;
+        const expected = await getExpectedToken();
+        // Note: Edge Runtime lacks crypto.timingSafeEqual; server actions use it.
+        // Middleware is a convenience redirect, not the auth boundary.
+        if (!token || !expected || token !== expected) {
+            return NextResponse.redirect(new URL('/admin/login', request.url));
+        }
+
+        return NextResponse.next();
+    }
 
     if (
         pathname.startsWith('/_next') ||

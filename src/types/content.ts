@@ -9,14 +9,3 @@ export type HighlightItem = {
     actionLabel: string;
     content: HighlightContentBlock[];
 };
-
-export type AgendaEvent = {
-    date: string;
-    time: string;
-    title: string;
-    location: string;
-    description: string;
-    image: string;
-    start: string;
-    end: string;
-};

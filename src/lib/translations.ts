@@ -457,7 +457,7 @@ type HighlightDictionaryItem = {
     content: HighlightContentBlock[];
 };
 
-type Dictionary = {
+export type Dictionary = {
     meta: {
         title: string;
         description: string;
@@ -2152,5 +2152,3 @@ export const dictionaries: Record<Locale, Dictionary> = {
     en,
     ar
 };
-
-export type { Dictionary };

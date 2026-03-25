@@ -5,9 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { newsItems } from '@/data/newsItems';
-import type { NewsItem } from '@/data/newsItems';
-import { newsTranslations } from '@/data/newsTranslations';
+import type { NewsItem } from '@/db/queries';
 import type { Locale } from '@/lib/i18n';
 
 import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
@@ -23,16 +21,7 @@ type NewsControls = {
 type NewsShowcaseProps = {
     locale: Locale;
     newsControls: NewsControls;
-};
-
-const getTranslatedNews = (item: NewsItem, locale: Locale) => {
-    const translation = newsTranslations[item.slug]?.[locale];
-
-    return {
-        title: translation?.title || item.title,
-        excerpt: translation?.excerpt || item.excerpt,
-        content: translation?.content || item.content
-    };
+    articles: NewsItem[];
 };
 
 const formatDate = (dateString: string | undefined, locale: Locale): string => {
@@ -148,7 +137,7 @@ const cardLayouts = [
 
 const activeLayouts = [cardLayouts[0], cardLayouts[1], cardLayouts[2], cardLayouts[3]];
 
-const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
+const NewsShowcase = ({ locale, newsControls, articles: newsItems }: NewsShowcaseProps) => {
     const ITEMS_PER_PAGE = activeLayouts.length;
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [page, setPage] = useState(0);
@@ -247,7 +236,7 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                             {formatDate(item.date, locale)}
                                         </p>
                                         <h3 className='mt-2 text-xl leading-tight font-semibold'>
-                                            {getTranslatedNews(item, locale).title}
+                                            {item.title}
                                         </h3>
                                     </div>
                                     <button
@@ -307,7 +296,7 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                             {formatDate(item.date, locale)}
                                         </p>
                                         <h3 className='mt-2 text-xl leading-tight font-semibold'>
-                                            {getTranslatedNews(item, locale).title}
+                                            {item.title}
                                         </h3>
                                     </div>
                                     <button
@@ -333,7 +322,7 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                         {formatDate(item.date, locale)}
                                     </p>
                                     <h3 className='mt-2 text-lg leading-tight font-black'>
-                                        {getTranslatedNews(item, locale).title}
+                                        {item.title}
                                     </h3>
                                 </div>
                                 <div className='relative basis-[55%] overflow-hidden rounded-b-[32px]'>
@@ -365,7 +354,7 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                     {formatDate(item.date, locale)}
                                 </p>
                                 <h3 className={`mt-3 font-black ${index === 0 ? 'text-2xl' : 'text-xl'}`}>
-                                    {getTranslatedNews(item, locale).title}
+                                    {item.title}
                                 </h3>
                                 <p
                                     className='mt-3 text-sm leading-relaxed text-black/70'
@@ -375,7 +364,7 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                         display: '-webkit-box',
                                         overflow: 'hidden'
                                     }}>
-                                    {getTranslatedNews(item, locale).excerpt}
+                                    {item.excerpt}
                                 </p>
                             </div>
                             <div className='mt-6 flex items-center justify-between'>
@@ -458,10 +447,10 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                 </span>
                             </div>
                             <h3 className='mt-3 text-3xl font-black text-[#43160c]'>
-                                {getTranslatedNews(activeArticle, locale).title}
+                                {activeArticle.title}
                             </h3>
                             <div className='mt-4 space-y-4 text-base text-[#43160c]/85'>
-                                {getTranslatedNews(activeArticle, locale).content.map((paragraph, index) => (
+                                {activeArticle.content.map((paragraph, index) => (
                                     <p key={`${activeArticle.slug}-paragraph-${index}`}>{paragraph}</p>
                                 ))}
                             </div>
@@ -494,7 +483,7 @@ const NewsShowcase = ({ locale, newsControls }: NewsShowcaseProps) => {
                                                         {formatDate(item.date, locale)}
                                                     </p>
                                                     <p className='text-sm leading-snug font-semibold'>
-                                                        {getTranslatedNews(item, locale).title}
+                                                        {item.title}
                                                     </p>
                                                 </div>
                                             </button>

@@ -23,7 +23,12 @@ const localeDateFormatters: Record<Locale, Intl.DateTimeFormat> = {
 const formatDateLabel = (isoDate: string, locale: Locale) =>
     localeDateFormatters[locale].format(new Date(`${isoDate}T00:00:00`));
 
-type RecurringEventKey = 'kunstInGein' | 'kinderkledingRuilpunt' | 'bewegingsexpressie' | 'repairCafe';
+type RecurringEventKey =
+    | 'kunstInGein'
+    | 'kunstInGeinThursdayMorning'
+    | 'kinderkledingRuilpunt'
+    | 'bewegingsexpressie'
+    | 'repairCafe';
 
 type RecurringEventTemplate = {
     idPrefix: string;
@@ -89,6 +94,49 @@ const KUNST_IN_GEIN_DATES = [
     '2026-12-15',
     '2026-12-22',
     '2026-12-29'
+];
+
+const KUNST_IN_GEIN_THURSDAY_MORNING_DATES = [
+    '2026-04-02',
+    '2026-04-09',
+    '2026-04-16',
+    '2026-04-23',
+    '2026-04-30',
+    '2026-05-07',
+    '2026-05-14',
+    '2026-05-21',
+    '2026-05-28',
+    '2026-06-04',
+    '2026-06-11',
+    '2026-06-18',
+    '2026-06-25',
+    '2026-07-02',
+    '2026-07-09',
+    '2026-07-16',
+    '2026-07-23',
+    '2026-07-30',
+    '2026-08-06',
+    '2026-08-13',
+    '2026-08-20',
+    '2026-08-27',
+    '2026-09-03',
+    '2026-09-10',
+    '2026-09-17',
+    '2026-09-24',
+    '2026-10-01',
+    '2026-10-08',
+    '2026-10-15',
+    '2026-10-22',
+    '2026-10-29',
+    '2026-11-05',
+    '2026-11-12',
+    '2026-11-19',
+    '2026-11-26',
+    '2026-12-03',
+    '2026-12-10',
+    '2026-12-17',
+    '2026-12-24',
+    '2026-12-31'
 ];
 
 const KINDERKLEDING_DATES = [
@@ -192,6 +240,7 @@ const REPAIR_CAFE_DATES = [
 
 const recurringEventDates: Record<RecurringEventKey, string[]> = {
     kunstInGein: KUNST_IN_GEIN_DATES,
+    kunstInGeinThursdayMorning: KUNST_IN_GEIN_THURSDAY_MORNING_DATES,
     kinderkledingRuilpunt: KINDERKLEDING_DATES,
     bewegingsexpressie: BEWEGINGSEXPRESSIE_DATES,
     repairCafe: REPAIR_CAFE_DATES
@@ -207,6 +256,32 @@ const recurringEventTemplates: Record<RecurringEventKey, RecurringEventTemplate>
             nl: '20:00 - 22:00',
             en: '20:00 – 22:00',
             ar: '٢٠:٠٠ – ٢٢:٠٠'
+        },
+        title: {
+            nl: 'Kunst in Gein',
+            en: 'Art in Gein',
+            ar: 'الفن في خيـن'
+        },
+        location: {
+            nl: 'De Ster, Woudrichemstraat 8',
+            en: 'De Ster, Woudrichemstraat 8',
+            ar: 'دي ستر، شارع وودريخم ٨'
+        },
+        description: {
+            nl: 'Gratis open atelier voor iedereen, van beginner tot gevorderde.',
+            en: 'Free open studio for everyone—from beginners to advanced makers.',
+            ar: 'مرسم مفتوح مجاني للجميع من المبتدئين إلى المتقدمين.'
+        }
+    },
+    kunstInGeinThursdayMorning: {
+        idPrefix: 'kunst-in-gein-donderdag-ochtend',
+        image: '/images/Agenda/Kunst%20in%20gein.png',
+        startTime: '11:00:00',
+        endTime: '13:00:00',
+        timeLabel: {
+            nl: '11:00 - 13:00',
+            en: '11:00 – 13:00',
+            ar: '١١:٠٠ – ١٣:٠٠'
         },
         title: {
             nl: 'Kunst in Gein',
@@ -346,6 +421,78 @@ const fixedEventsByLocale: Record<Locale, AgendaEvent[]> = {
             image: '/images/Agenda/Iftar.png',
             start: '2026-03-05T17:30:00',
             end: '2026-03-05T19:30:00'
+        },
+        {
+            id: 'soula-pisco-kings-day-2026-04-25',
+            date: formatDateLabel('2026-04-25', 'nl'),
+            time: '17:00 - 00:00',
+            title: 'Soul & Disco Party met DJ Lilian | Kings Day Editie',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Gratis zaterdagavond-editie van Soul & Disco Party met DJ Lilian. Keuken geopend. Kings Day Editie.',
+            image: '/images/Agenda/kingsdayeditie%201.png',
+            start: '2026-04-25T17:00:00',
+            end: '2026-04-26T00:00:00'
+        },
+        {
+            id: 'soula-pisco-rnb-2026-05-30',
+            date: formatDateLabel('2026-05-30', 'nl'),
+            time: '17:00 - 00:00',
+            title: 'Soul & Disco Party met DJ Lilian | R&B Editie',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Gratis zaterdagavond-editie van Soul & Disco Party met DJ Lilian. Keuken geopend. R&B Editie.',
+            image: '/images/Agenda/R%26Beditie%201.png',
+            start: '2026-05-30T17:00:00',
+            end: '2026-05-31T00:00:00'
+        },
+        {
+            id: 'soula-pisco-latin-2026-08-29',
+            date: formatDateLabel('2026-08-29', 'nl'),
+            time: '17:00 - 00:00',
+            title: 'Soul & Disco Party met DJ Lilian | Latin Editie',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Gratis zaterdagavond-editie van Soul & Disco Party met DJ Lilian. Keuken geopend. Latin Editie.',
+            image: '/images/Agenda/latineditie%201.png',
+            start: '2026-08-29T17:00:00',
+            end: '2026-08-30T00:00:00'
+        },
+        {
+            id: 'soula-pisco-classics-2026-09-26',
+            date: formatDateLabel('2026-09-26', 'nl'),
+            time: '17:00 - 00:00',
+            title: 'Soul & Disco Party met DJ Lilian | Classics Editie',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Gratis zaterdagavond-editie van Soul & Disco Party met DJ Lilian. Keuken geopend. Classics Editie.',
+            image: '/images/Agenda/Classicseditie%201.png',
+            start: '2026-09-26T17:00:00',
+            end: '2026-09-27T00:00:00'
+        },
+        {
+            id: 'soula-pisco-halloween-2026-10-31',
+            date: formatDateLabel('2026-10-31', 'nl'),
+            time: '17:00 - 00:00',
+            title: 'Soul & Disco Party met DJ Lilian | Halloween Editie',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Gratis zaterdagavond-editie van Soul & Disco Party met DJ Lilian. Keuken geopend. Halloween Editie.',
+            image: '/images/Agenda/Halloweeneditie.png',
+            start: '2026-10-31T17:00:00',
+            end: '2026-11-01T00:00:00'
+        },
+        {
+            id: 'soula-pisco-winter-2026-11-28',
+            date: formatDateLabel('2026-11-28', 'nl'),
+            time: '17:00 - 00:00',
+            title: 'Soul & Disco Party met DJ Lilian | Winter Editie',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Gratis zaterdagavond-editie van Soul & Disco Party met DJ Lilian. Keuken geopend. Winter Editie.',
+            image: '/images/Agenda/WinterEditie%201.png',
+            start: '2026-11-28T17:00:00',
+            end: '2026-11-29T00:00:00'
         }
     ],
     en: [
@@ -372,6 +519,78 @@ const fixedEventsByLocale: Record<Locale, AgendaEvent[]> = {
             image: '/images/Agenda/Iftar.png',
             start: '2026-03-05T17:30:00',
             end: '2026-03-05T19:30:00'
+        },
+        {
+            id: 'soula-pisco-kings-day-en-2026-04-25',
+            date: formatDateLabel('2026-04-25', 'en'),
+            time: '17:00 – 00:00',
+            title: 'Soul & Disco Party with DJ Lilian | Kings Day Edition',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Free Saturday evening edition of Soul & Disco Party with DJ Lilian. Kitchen open. Kings Day Edition.',
+            image: '/images/Agenda/kingsdayeditie%201.png',
+            start: '2026-04-25T17:00:00',
+            end: '2026-04-26T00:00:00'
+        },
+        {
+            id: 'soula-pisco-rnb-en-2026-05-30',
+            date: formatDateLabel('2026-05-30', 'en'),
+            time: '17:00 – 00:00',
+            title: 'Soul & Disco Party with DJ Lilian | R&B Edition',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Free Saturday evening edition of Soul & Disco Party with DJ Lilian. Kitchen open. R&B Edition.',
+            image: '/images/Agenda/R%26Beditie%201.png',
+            start: '2026-05-30T17:00:00',
+            end: '2026-05-31T00:00:00'
+        },
+        {
+            id: 'soula-pisco-latin-en-2026-08-29',
+            date: formatDateLabel('2026-08-29', 'en'),
+            time: '17:00 – 00:00',
+            title: 'Soul & Disco Party with DJ Lilian | Latin Edition',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Free Saturday evening edition of Soul & Disco Party with DJ Lilian. Kitchen open. Latin Edition.',
+            image: '/images/Agenda/latineditie%201.png',
+            start: '2026-08-29T17:00:00',
+            end: '2026-08-30T00:00:00'
+        },
+        {
+            id: 'soula-pisco-classics-en-2026-09-26',
+            date: formatDateLabel('2026-09-26', 'en'),
+            time: '17:00 – 00:00',
+            title: 'Soul & Disco Party with DJ Lilian | Classics Edition',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Free Saturday evening edition of Soul & Disco Party with DJ Lilian. Kitchen open. Classics Edition.',
+            image: '/images/Agenda/Classicseditie%201.png',
+            start: '2026-09-26T17:00:00',
+            end: '2026-09-27T00:00:00'
+        },
+        {
+            id: 'soula-pisco-halloween-en-2026-10-31',
+            date: formatDateLabel('2026-10-31', 'en'),
+            time: '17:00 – 00:00',
+            title: 'Soul & Disco Party with DJ Lilian | Halloween Edition',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Free Saturday evening edition of Soul & Disco Party with DJ Lilian. Kitchen open. Halloween Edition.',
+            image: '/images/Agenda/Halloweeneditie.png',
+            start: '2026-10-31T17:00:00',
+            end: '2026-11-01T00:00:00'
+        },
+        {
+            id: 'soula-pisco-winter-en-2026-11-28',
+            date: formatDateLabel('2026-11-28', 'en'),
+            time: '17:00 – 00:00',
+            title: 'Soul & Disco Party with DJ Lilian | Winter Edition',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'Free Saturday evening edition of Soul & Disco Party with DJ Lilian. Kitchen open. Winter Edition.',
+            image: '/images/Agenda/WinterEditie%201.png',
+            start: '2026-11-28T17:00:00',
+            end: '2026-11-29T00:00:00'
         }
     ],
     ar: [
@@ -398,6 +617,78 @@ const fixedEventsByLocale: Record<Locale, AgendaEvent[]> = {
             image: '/images/Agenda/Iftar.png',
             start: '2026-03-05T17:30:00',
             end: '2026-03-05T19:30:00'
+        },
+        {
+            id: 'soula-pisco-kings-day-ar-2026-04-25',
+            date: formatDateLabel('2026-04-25', 'ar'),
+            time: '١٧:٠٠ – ٠٠:٠٠',
+            title: 'Soul & Disco Party مع DJ Lilian | نسخة يوم الملك',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'أمسية السبت المجانية من Soul & Disco Party مع DJ Lilian. المطبخ مفتوح. نسخة يوم الملك.',
+            image: '/images/Agenda/kingsdayeditie%201.png',
+            start: '2026-04-25T17:00:00',
+            end: '2026-04-26T00:00:00'
+        },
+        {
+            id: 'soula-pisco-rnb-ar-2026-05-30',
+            date: formatDateLabel('2026-05-30', 'ar'),
+            time: '١٧:٠٠ – ٠٠:٠٠',
+            title: 'Soul & Disco Party مع DJ Lilian | نسخة R&B',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'أمسية السبت المجانية من Soul & Disco Party مع DJ Lilian. المطبخ مفتوح. نسخة R&B.',
+            image: '/images/Agenda/R%26Beditie%201.png',
+            start: '2026-05-30T17:00:00',
+            end: '2026-05-31T00:00:00'
+        },
+        {
+            id: 'soula-pisco-latin-ar-2026-08-29',
+            date: formatDateLabel('2026-08-29', 'ar'),
+            time: '١٧:٠٠ – ٠٠:٠٠',
+            title: 'Soul & Disco Party مع DJ Lilian | نسخة Latin',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'أمسية السبت المجانية من Soul & Disco Party مع DJ Lilian. المطبخ مفتوح. نسخة Latin.',
+            image: '/images/Agenda/latineditie%201.png',
+            start: '2026-08-29T17:00:00',
+            end: '2026-08-30T00:00:00'
+        },
+        {
+            id: 'soula-pisco-classics-ar-2026-09-26',
+            date: formatDateLabel('2026-09-26', 'ar'),
+            time: '١٧:٠٠ – ٠٠:٠٠',
+            title: 'Soul & Disco Party مع DJ Lilian | نسخة Classics',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'أمسية السبت المجانية من Soul & Disco Party مع DJ Lilian. المطبخ مفتوح. نسخة Classics.',
+            image: '/images/Agenda/Classicseditie%201.png',
+            start: '2026-09-26T17:00:00',
+            end: '2026-09-27T00:00:00'
+        },
+        {
+            id: 'soula-pisco-halloween-ar-2026-10-31',
+            date: formatDateLabel('2026-10-31', 'ar'),
+            time: '١٧:٠٠ – ٠٠:٠٠',
+            title: 'Soul & Disco Party مع DJ Lilian | نسخة Halloween',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'أمسية السبت المجانية من Soul & Disco Party مع DJ Lilian. المطبخ مفتوح. نسخة Halloween.',
+            image: '/images/Agenda/Halloweeneditie.png',
+            start: '2026-10-31T17:00:00',
+            end: '2026-11-01T00:00:00'
+        },
+        {
+            id: 'soula-pisco-winter-ar-2026-11-28',
+            date: formatDateLabel('2026-11-28', 'ar'),
+            time: '١٧:٠٠ – ٠٠:٠٠',
+            title: 'Soul & Disco Party مع DJ Lilian | نسخة Winter',
+            location: 'Gein 1, Wisseloord 83 | BHZO.nl',
+            description:
+                'أمسية السبت المجانية من Soul & Disco Party مع DJ Lilian. المطبخ مفتوح. نسخة Winter.',
+            image: '/images/Agenda/WinterEditie%201.png',
+            start: '2026-11-28T17:00:00',
+            end: '2026-11-29T00:00:00'
         }
     ]
 };

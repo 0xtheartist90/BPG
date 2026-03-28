@@ -284,7 +284,8 @@ export const BPGPage = ({ dict, locale, articles, events }: BPGPageProps) => {
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
-        const formData = new FormData(e.currentTarget);
+        const form = e.currentTarget;
+        const formData = new FormData(form);
         const subjectValue = formData.get('subject') as string;
         const subjectOptions = dict.contact.fields.subjectOptions;
         const subjectLabelMap: Record<string, string> = {
@@ -312,7 +313,7 @@ export const BPGPage = ({ dict, locale, articles, events }: BPGPageProps) => {
 
             if (response.ok) {
                 setSubmitStatus('success');
-                e.currentTarget.reset();
+                form.reset();
                 setTimeout(() => setSubmitStatus('idle'), 5000);
             } else {
                 setSubmitStatus('error');
@@ -1302,9 +1303,9 @@ export const BPGPage = ({ dict, locale, articles, events }: BPGPageProps) => {
                                 </a>
                             </div>
                             <a
-                                href='mailto:bewonersplatformgein@gmail.com'
+                                href='mailto:info@buurtplatformgein.nl'
                                 className='block text-sm font-semibold text-[#43160c] underline decoration-[#ff4d00]/60 hover:decoration-[#ff4d00] md:text-right'>
-                                bewonersplatformgein@gmail.com
+                                info@buurtplatformgein.nl
                             </a>
                         </div>
                     </div>

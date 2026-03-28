@@ -4,10 +4,20 @@ import { buildContactFormEmail } from '@/emails/ContactFormEmail';
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
+const contactToEmail = process.env.CONTACT_TO_EMAIL ?? 'info@buurtplatformgein.nl';
+const budgetContactToEmail = process.env.BUDGET_CONTACT_TO_EMAIL ?? 'budget@buurtplatformgein.nl';
+const contactFromEmail = process.env.CONTACT_FROM_EMAIL ?? 'Buurtplatform Gein <no-reply@buurtplatformgein.nl>';
 
 export async function POST(request: NextRequest) {
     try {
+        if (!resend) {
+            console.error('Missing RESEND_API_KEY');
+
+            return NextResponse.json({ error: 'Email service is not configured' }, { status: 500 });
+        }
+
         const body = await request.json();
         const { name, email, subject, subjectLabel, message } = body as {
             name?: string;
@@ -28,10 +38,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
         }
 
+        const destinationEmail = subject === 'budget' ? budgetContactToEmail : contactToEmail;
+
         // Send email using Resend
         const { data, error } = await resend.emails.send({
-            from: 'Buurtplatform Gein <no-reply@buurtplatformgein.nl>',
-            to: ['theartist@0xlaboratory.xyz'],
+            from: contactFromEmail,
+            to: [destinationEmail],
             replyTo: email,
             subject: `[${subjectLabel}] Nieuw contactformulier bericht van ${name}`,
             html: buildContactFormEmail({ name, email, subjectLabel, message })

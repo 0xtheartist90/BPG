@@ -147,8 +147,8 @@ export const buildContactFormEmail = ({ name, email, subjectLabel, message }: Co
                     Woudrichemstraat 8, 1106 LG Amsterdam
                 </p>
                 <p class="footer-text" style="font-size: 12px; opacity: 0.8;">
-                    <a href="mailto:bewonersplatformgein@gmail.com" class="footer-link">
-                        bewonersplatformgein@gmail.com
+                    <a href="mailto:info@buurtplatformgein.nl" class="footer-link">
+                        info@buurtplatformgein.nl
                     </a>
                 </p>
                 <div style="height: 20px;"></div>

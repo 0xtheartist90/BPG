@@ -1,6 +1,6 @@
+import { getPublishedArticles, getUpcomingEvents } from '@/db/queries';
 import { getDictionary } from '@/lib/getDictionary';
 import { type Locale, locales } from '@/lib/i18n';
-import { getPublishedArticles, getUpcomingEvents } from '@/db/queries';
 
 import BPGPage from './BPGPage';
 

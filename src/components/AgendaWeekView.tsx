@@ -4,8 +4,13 @@ import { useMemo, useState } from 'react';
 
 import type { AgendaEvent } from '@/types/agenda';
 
-const amsterdamDateFormat = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Amsterdam' });
-const formatDateKey = (date: Date) => amsterdamDateFormat.format(date);
+const formatDateKey = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+};
 
 const AgendaWeekView = ({
     events,
@@ -67,7 +72,8 @@ const AgendaWeekView = ({
             if (!event.start) {
                 return;
             }
-            const key = formatDateKey(new Date(event.start));
+            const isoDatePart = event.start.slice(0, 10);
+            const key = /^\d{4}-\d{2}-\d{2}$/.test(isoDatePart) ? isoDatePart : formatDateKey(new Date(event.start));
             const list = map.get(key) ?? [];
             list.push(event);
             map.set(key, list);

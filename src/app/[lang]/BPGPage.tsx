@@ -263,30 +263,7 @@ export const BPGPage = ({ dict, locale, articles, events }: BPGPageProps) => {
         const offset = targetSlide.offsetLeft - Math.max(0, (slider.clientWidth - targetSlide.clientWidth) / 2);
         slider.scrollTo({ left: offset, behavior: 'smooth' });
     };
-    const agendaEvents = (() => {
-        const buildEventKey = (event: AgendaEvent) => {
-            const datetimeKey = event.start ?? `${event.date}|${event.time}`;
-
-            return `${datetimeKey}|${event.title}`;
-        };
-
-        const merged = new Map<string, AgendaEvent>();
-
-        for (const event of dict.agenda.events) {
-            merged.set(buildEventKey(event), event);
-        }
-
-        for (const event of events) {
-            merged.set(buildEventKey(event), event);
-        }
-
-        return Array.from(merged.values()).sort((a, b) => {
-            const aTime = a.start ? Date.parse(a.start) : Number.POSITIVE_INFINITY;
-            const bTime = b.start ? Date.parse(b.start) : Number.POSITIVE_INFINITY;
-
-            return aTime - bTime;
-        });
-    })();
+    const agendaEvents = dict.agenda.events;
     const contactChannels = dict.contact.channels;
     const openEventModal = (events: AgendaEvent[], index = 0) => {
         if (!events.length) {

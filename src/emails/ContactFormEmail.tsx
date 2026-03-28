@@ -5,6 +5,11 @@ interface ContactFormEmailProps {
     message: string;
 }
 
+interface ContactConfirmationEmailProps {
+    name: string;
+    subjectLabel: string;
+}
+
 const escapeHtml = (value: string) =>
     value
         .replace(/&/g, '&amp;')
@@ -15,7 +20,14 @@ const escapeHtml = (value: string) =>
 
 const formatMultiline = (value: string) => escapeHtml(value).replace(/\n/g, '<br />');
 
-export const buildContactFormEmail = ({ name, email, subjectLabel, message }: ContactFormEmailProps) => `<!DOCTYPE html>
+const logoUrl = 'https://www.buurtplatformgein.nl/images/bpglogo.png';
+
+const buildEmailLayout = ({ title, intro, content, footerNote }: {
+    title: string;
+    intro: string;
+    content: string;
+    footerNote: string;
+}) => `<!DOCTYPE html>
 <html lang="nl">
     <head>
         <meta charSet="utf-8" />
@@ -41,6 +53,8 @@ export const buildContactFormEmail = ({ name, email, subjectLabel, message }: Co
             .logo {
                 max-width: 180px;
                 height: auto;
+                display: block;
+                margin: 0 auto;
             }
             .content {
                 padding: 40px 30px;
@@ -108,14 +122,49 @@ export const buildContactFormEmail = ({ name, email, subjectLabel, message }: Co
     <body>
         <div class="container">
             <div class="header">
-                <img src="https://buurtplatformgein.nl/images/bpglogo.png" alt="Buurtplatform Gein" class="logo" />
+                <img
+                    src="${logoUrl}"
+                    alt="Buurtplatform Gein"
+                    class="logo"
+                    width="180"
+                />
             </div>
             <div class="content">
-                <h1 class="title">Nieuw Contactformulier Bericht</h1>
+                <h1 class="title">${title}</h1>
                 <p style="font-size: 16px; color: #5c220f; margin-bottom: 30px;">
-                    Je hebt een nieuw bericht ontvangen via het contactformulier op de website.
+                    ${intro}
                 </p>
                 <div class="divider"></div>
+                ${content}
+            </div>
+            <div class="footer">
+                <p class="footer-text" style="font-weight: 700; font-size: 16px; margin-bottom: 12px;">
+                    Buurtplatform Gein
+                </p>
+                <p class="footer-text">Voor elkaar. Met elkaar.</p>
+                <div style="height: 20px;"></div>
+                <p class="footer-text" style="font-size: 12px; opacity: 0.8;">
+                    Woudrichemstraat 8, 1106 LG Amsterdam
+                </p>
+                <p class="footer-text" style="font-size: 12px; opacity: 0.8;">
+                    <a href="mailto:info@buurtplatformgein.nl" class="footer-link">
+                        info@buurtplatformgein.nl
+                    </a>
+                </p>
+                <div style="height: 20px;"></div>
+                <p class="footer-text" style="font-size: 11px; opacity: 0.7;">
+                    ${footerNote}
+                </p>
+            </div>
+        </div>
+    </body>
+</html>`;
+
+export const buildContactFormEmail = ({ name, email, subjectLabel, message }: ContactFormEmailProps) =>
+    buildEmailLayout({
+        title: 'Nieuw Contactformulier Bericht',
+        intro: 'Je hebt een nieuw bericht ontvangen via het contactformulier op de website.',
+        content: `
                 <div class="field">
                     <div class="field-label">Naam</div>
                     <p class="field-value">${escapeHtml(name)}</p>
@@ -136,26 +185,25 @@ export const buildContactFormEmail = ({ name, email, subjectLabel, message }: Co
                         <p class="field-value" style="white-space: pre-wrap;">${formatMultiline(message)}</p>
                     </div>
                 </div>
-            </div>
-            <div class="footer">
-                <p class="footer-text" style="font-weight: 700; font-size: 16px; margin-bottom: 12px;">
-                    Buurtplatform Gein
-                </p>
-                <p class="footer-text">Voor elkaar. Met elkaar.</p>
-                <div style="height: 20px;"></div>
-                <p class="footer-text" style="font-size: 12px; opacity: 0.8;">
-                    Woudrichemstraat 8, 1106 LG Amsterdam
-                </p>
-                <p class="footer-text" style="font-size: 12px; opacity: 0.8;">
-                    <a href="mailto:info@buurtplatformgein.nl" class="footer-link">
-                        info@buurtplatformgein.nl
-                    </a>
-                </p>
-                <div style="height: 20px;"></div>
-                <p class="footer-text" style="font-size: 11px; opacity: 0.7;">
-                    Dit bericht is automatisch gegenereerd vanuit het contactformulier.
-                </p>
-            </div>
-        </div>
-    </body>
-</html>`;
+        `,
+        footerNote: 'Dit bericht is automatisch gegenereerd vanuit het contactformulier.'
+    });
+
+export const buildContactConfirmationEmail = ({ name, subjectLabel }: ContactConfirmationEmailProps) =>
+    buildEmailLayout({
+        title: 'We Hebben Je Bericht Ontvangen',
+        intro: `Bedankt ${escapeHtml(name)}, we hebben je bericht goed ontvangen en nemen zo snel mogelijk contact met je op.`,
+        content: `
+                <div class="field">
+                    <div class="field-label">Onderwerp</div>
+                    <p class="field-value">${escapeHtml(subjectLabel)}</p>
+                </div>
+                <div class="field">
+                    <div class="field-label">Wat gebeurt er nu?</div>
+                    <div class="message-box">
+                        <p class="field-value">Je bericht is doorgestuurd naar ons team. We reageren zo snel mogelijk via e-mail.</p>
+                    </div>
+                </div>
+        `,
+        footerNote: 'Dit is een automatische ontvangstbevestiging van het contactformulier.'
+    });

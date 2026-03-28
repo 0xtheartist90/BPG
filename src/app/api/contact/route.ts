@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { buildContactFormEmail } from '@/emails/ContactFormEmail';
+import { buildContactConfirmationEmail, buildContactFormEmail } from '@/emails/ContactFormEmail';
 
 import { Resend } from 'resend';
 
@@ -53,6 +53,17 @@ export async function POST(request: NextRequest) {
             console.error('Resend error:', error);
 
             return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+        }
+
+        const { error: confirmationError } = await resend.emails.send({
+            from: contactFromEmail,
+            to: [email],
+            subject: `We hebben je bericht ontvangen | Buurtplatform Gein`,
+            html: buildContactConfirmationEmail({ name, subjectLabel })
+        });
+
+        if (confirmationError) {
+            console.error('Resend confirmation error:', confirmationError);
         }
 
         return NextResponse.json({ success: true, messageId: data?.id }, { status: 200 });
